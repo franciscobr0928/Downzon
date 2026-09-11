@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Downzon</title>
+</head>
+<body>
+
+    <h1>Gestión de Productos</h1>
+
+    <p>Desde aquí el gerente podrá administrar los productos de Downzon.</p>
+
+    <a href="/gerente/productos/agregar">
+        Agregar producto
+    </a>
+
+    <br><br>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabla-productos">
+        </tbody>
+    </table>
+
+    <br>
+
+    <a href="/gerente">Volver al panel</a>
+
+    <br><br>
+
+    <a href="/login/cerrar">Cerrar sesión</a>
+
+    <script src="/js/gerenteProductos.js"></script>
+
+</body>
+</html>

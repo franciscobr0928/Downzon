@@ -83,3 +83,25 @@ button:hover {
     margin-top: -10px;
     margin-bottom: 25px;
 }
+
+.volver-inicio {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #8b5e3c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.volver-inicio:hover {
+    text-decoration: underline;
+}
+
+.mensaje-error {
+    min-height: 20px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #b3261e;
+    font-weight: bold;
+}

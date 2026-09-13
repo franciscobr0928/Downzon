@@ -5,7 +5,6 @@ fetch('/productos')
     .then(productos => {
         productos.forEach(producto => {
             const fila = document.createElement('tr');
-
             fila.innerHTML = `
                 <td>${producto.id_producto}</td>
                 <td>${producto.nombre}</td>
@@ -13,19 +12,20 @@ fetch('/productos')
                 <td>$${parseFloat(producto.precio).toFixed(2)}</td>
                 <td>${producto.cantidad}</td>
                 <td>
-                    <button type="button">Editar</button>
+                    <button type="button" onclick="editarProducto(${producto.id_producto})">
+                        Editar
+                    </button>
+
                     <button type="button" onclick="eliminarProducto(${producto.id_producto}, '${producto.nombre}')">
                         Eliminar
                     </button>
                 </td>
             `;
-
             tablaProductos.appendChild(fila);
         });
     })
     .catch(error => {
         console.error(error);
-
         tablaProductos.innerHTML = `
             <tr>
                 <td colspan="6">No se pudieron cargar los productos.</td>
@@ -35,11 +35,9 @@ fetch('/productos')
 
 const eliminarProducto = (id, nombre) => {
     const confirmar = confirm(`¿Seguro que deseas eliminar ${nombre}?`);
-
     if (!confirmar) {
         return;
     }
-
     fetch(`/productos/${id}`, {
         method: 'DELETE'
     })
@@ -52,4 +50,8 @@ const eliminarProducto = (id, nombre) => {
             console.error(error);
             alert('No se pudo eliminar el producto');
         });
+};
+
+const editarProducto = (id) => {
+    window.location.href = `/gerente/productos/editar/${id}`;
 };

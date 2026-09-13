@@ -12,29 +12,35 @@ const iniciarSesion = (req, res) => {
     usuarioDAO.buscarPorCredenciales(username, password, (error, usuario) => {
         if (error) {
             console.error(error);
-            return res.status(500).send('Error en el servidor');
+            return res.status(500).json({
+                mensaje: 'Error en el servidor'
+            });
         }
-
         if (!usuario) {
-            return res.status(401).send('Usuario o contraseña incorrectos');
+            return res.status(401).json({
+                mensaje: 'Usuario o contraseña incorrectos'
+            });
         }
-
         req.session.usuario = usuario.username;
         req.session.rol = usuario.rol;
-
         if (usuario.rol === 'Gerente') {
-            return res.redirect('/gerente');
+            return res.json({
+                redireccion: '/gerente'
+            });
         }
-
         if (usuario.rol === 'Cajero') {
-            return res.redirect('/cajero');
+            return res.json({
+                redireccion: '/cajero'
+            });
         }
-
         if (usuario.rol === 'Panadero') {
-            return res.redirect('/panadero');
+            return res.json({
+                redireccion: '/panadero'
+            });
         }
-
-        res.send('Rol no reconocido');
+        return res.status(403).json({
+            mensaje: 'Rol no reconocido'
+        });
     });
 };
 
@@ -43,7 +49,6 @@ const cerrarSesion = (req, res) => {
         if (error) {
             return res.status(500).send('Error al cerrar sesión');
         }
-
         res.redirect('/login');
     });
 };

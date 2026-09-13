@@ -18,8 +18,15 @@ const mostrarAgregarProducto = (req, res) => {
     );
 };
 
+const mostrarEditarProducto = (req, res) => {
+    res.sendFile(
+        path.join(__dirname, '..', '..', 'vistas', 'gerenteEditarProducto.html')
+    );
+};
+
 module.exports = {
     mostrarPanelGerente,
     mostrarGestionProductos,
-    mostrarAgregarProducto
+    mostrarAgregarProducto,
+    mostrarEditarProducto
 };

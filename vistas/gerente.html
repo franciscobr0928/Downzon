@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerente - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
 </head>
 <body>
-
-    <h1>Panel del Gerente</h1>
-
-    <p>Bienvenido al sistema de administración de Downzon.</p>
-
-    <a href="/gerente/productos">Gestionar productos</a>
-
-    <br><br>
-
-    <a href="/login/cerrar">Cerrar sesión</a>
-
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Gerente</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <h1>Panel del Gerente</h1>
+            <p>Administra las principales funciones de la panadería Downzon.</p>
+        </section>
+        <section class="opciones-panel">
+            <a href="/gerente/productos" class="opcion-panel">
+                <h2>Gestión de productos</h2>
+                <p>
+                    Consulta, agrega, edita o elimina los productos disponibles
+                    en la panadería.
+                </p>
+            </a>
+        </section>
+    </main>
 </body>
 </html>

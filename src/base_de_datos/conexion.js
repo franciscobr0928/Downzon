@@ -12,7 +12,6 @@ conexion.connect((error) => {
         console.error('No jaló:', error.message);
         return;
     }
-
     console.log('Si jaló');
 });
 

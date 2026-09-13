@@ -4,14 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cajero - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
 </head>
 <body>
-
-    <h1>Punto de Venta</h1>
-
-    <p>Bienvenido al sistema de ventas de Downzon.</p>
-
-    <a href="/login/cerrar">Cerrar sesión</a>
-
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Cajero</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <h1>Panel del Cajero</h1>
+            <p>Administra las ventas y atención a clientes de Downzon.</p>
+        </section>
+        <section class="opciones-panel">
+            <a href="/cajero/venta" class="opcion-panel">
+                <h2>Punto de venta</h2>
+                <p>
+                    Registra productos, calcula el total y realiza
+                    las ventas de la panadería.
+                </p>
+            </a>
+        </section>
+    </main>
 </body>
 </html>

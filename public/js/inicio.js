@@ -5,13 +5,10 @@ fetch('/productos')
     .then(productos => {
         productos.forEach(producto => {
             const tarjeta = document.createElement('article');
-
             tarjeta.classList.add('producto');
-
             const imagen = producto.imagen
                 ? `<img src="/img/productos/${producto.imagen}" alt="${producto.nombre}" class="producto-imagen">`
                 : '';
-
             tarjeta.innerHTML = `
                 ${imagen}
 
@@ -21,13 +18,11 @@ fetch('/productos')
                     <span>$${parseFloat(producto.precio).toFixed(2)}</span>
                 </div>
             `;
-
             contenedorProductos.appendChild(tarjeta);
         });
     })
     .catch(error => {
         console.error(error);
-
         contenedorProductos.innerHTML = `
             <p>No se pudieron cargar los productos.</p>
         `;

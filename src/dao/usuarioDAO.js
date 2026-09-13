@@ -9,18 +9,14 @@ const buscarPorCredenciales = (username, password, callback) => {
         AND password = ?
         AND activo = TRUE
     `;
-
     conexion.query(consulta, [username, password], (error, resultados) => {
         if (error) {
             return callback(error, null);
         }
-
         if (resultados.length === 0) {
             return callback(null, null);
         }
-
         const datos = resultados[0];
-
         const usuario = new Usuario(
             datos.id_usuario,
             datos.nombre,
@@ -29,7 +25,6 @@ const buscarPorCredenciales = (username, password, callback) => {
             datos.rol,
             datos.activo
         );
-
         callback(null, usuario);
     });
 };

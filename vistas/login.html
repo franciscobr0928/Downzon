@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Downzon</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-contenedor">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-login">
+        <p class="subtitulo-login">
+            Sistema de Gestión Panadera
+        </p>
+        <h2>Iniciar sesión</h2>
+        <form id="form-login">
+            <label for="username">Usuario</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                required
+            >
+            <label for="password">Contraseña</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                required
+            >
+            <p id="mensaje-error" class="mensaje-error"></p>
+            <button type="submit">
+                Iniciar sesión
+            </button>
+        </form>
+        <a href="/" class="volver-inicio">
+            ← Volver al inicio
+        </a>
+    </div>
+    <script src="/js/login.js"></script>
+</body>
+</html>

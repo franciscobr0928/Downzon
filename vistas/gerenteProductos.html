@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Gerente</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-productos">
+            <div>
+                <a href="/gerente" class="volver-panel">← Volver al panel</a>
+                <h1>Gestión de Productos</h1>
+                <p>
+                    Administra los productos disponibles en la panadería.
+                </p>
+            </div>
+            <a href="/gerente/productos/agregar" class="boton-agregar">
+                Agregar producto
+            </a>
+        </section>
+        <section class="contenedor-tabla">
+            <table class="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-productos">
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script src="/js/gerenteProductos.js"></script>
+</body>
+</html>

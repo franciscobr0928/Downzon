@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar producto - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Gerente</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <a href="/gerente/productos" class="volver-panel">
+            ← Volver a productos
+        </a>
+        <section class="encabezado-formulario">
+            <h1>Editar producto</h1>
+            <p>Modifica la información del producto seleccionado.</p>
+        </section>
+        <section class="contenedor-formulario">
+            <form id="form-editar-producto" class="formulario-producto" enctype="multipart/form-data">
+                <input type="hidden" id="imagen_actual" name="imagen_actual">
+                <div class="campo-formulario">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="campo-formulario">
+                    <label for="descripcion">Descripción</label>
+                    <input type="text" id="descripcion" name="descripcion">
+                </div>
+                <div class="fila-formulario">
+                    <div class="campo-formulario">
+                        <label for="precio">Precio</label>
+                        <input type="number" id="precio" name="precio" step="0.01" min="0" required>
+                    </div>
+                    <div class="campo-formulario">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" id="cantidad" name="cantidad" min="0" required>
+                    </div>
+                </div>
+                <div class="campo-formulario">
+                    <label for="imagen">Nueva imagen</label>
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        accept="image/*"
+                    >
+                </div>
+                <div class="acciones-formulario">
+                    <a href="/gerente/productos" class="boton-cancelar">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="boton-guardar">
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <script src="/js/gerenteEditarProducto.js"></script>
+</body>
+</html>

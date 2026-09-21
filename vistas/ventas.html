@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Punto de Venta - Downzon</title>
+
+    <link rel="stylesheet" href="/css/ventas.css">
+
+</head>
+
+
+<body>
+
+
+<div class="contenedor-ventas">
+
+
+    <h1 class="titulo-ventas">
+        Punto de Venta
+    </h1>
+
+
+
+    <h2>Productos disponibles</h2>
+
+
+    <div 
+        id="productos"
+        class="productos-container">
+    </div>
+
+
+
+
+    <div class="carrito-container">
+
+
+        <h2>
+            Carrito de compra
+        </h2>
+
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody id="carrito">
+
+            </tbody>
+
+
+        </table>
+
+
+
+
+        <div class="total">
+
+            Total:
+            $
+            <span id="total">
+                0
+            </span>
+
+        </div>
+
+
+
+
+        <div class="pago-container">
+
+
+            <label>
+                Pago recibido:
+            </label>
+
+
+            <input 
+                type="number"
+                id="pago"
+                oninput="calcularCambio()"
+            >
+
+
+        </div>
+
+
+
+
+        <div class="total">
+
+            Cambio:
+            $
+            <span id="cambio">
+                0
+            </span>
+
+        </div>
+
+
+
+
+        <button 
+            class="btn-finalizar"
+            onclick="finalizarVenta()">
+
+            Finalizar venta
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+<script src="/js/ventas.js"></script>
+
+
+</body>
+
+</html>

@@ -318,7 +318,12 @@ function finalizarVenta(){
             total:total,
 
 
-            productos:carrito
+            productos: carrito.map(producto => ({
+            id_producto: producto.id_producto,
+            precio: producto.precio,
+            cantidad: producto.cantidadVenta
+
+}))
 
 
         })

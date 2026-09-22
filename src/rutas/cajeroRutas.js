@@ -1,9 +1,10 @@
-<<<<<<< HEAD
 const express = require("express");
 
 const router = express.Router();
 
 const cajeroControlador = require("../controladores/cajeroControlador");
+
+const { verificarRol } = require("../middlewares/autenticacion");
 
 
 
@@ -11,6 +12,7 @@ const cajeroControlador = require("../controladores/cajeroControlador");
 
 router.get(
     "/",
+    verificarRol("Cajero"),
     cajeroControlador.mostrarPanelCajero
 );
 
@@ -20,6 +22,7 @@ router.get(
 
 router.get(
     "/venta",
+    verificarRol("Cajero"),
     (req,res)=>{
 
         res.sendFile(
@@ -34,17 +37,4 @@ router.get(
 
 
 
-=======
-const express = require('express');
-const router = express.Router();
-const cajeroControlador = require('../controladores/cajeroControlador');
-const { verificarRol } = require('../middlewares/autenticacion');
-
-router.get(
-    '/',
-    verificarRol('Cajero'),
-    cajeroControlador.mostrarPanelCajero
-);
-
->>>>>>> 621afbcd9245e5d2cbb6c8691c0f565ad71ce99e
 module.exports = router;

@@ -2,7 +2,7 @@ let carrito = [];
 
 
 
-window.onload = function(){
+window.onload = function () {
 
     cargarProductos();
 
@@ -12,25 +12,21 @@ window.onload = function(){
 
 
 
-function cargarProductos(){
+function cargarProductos() {
 
 
-fetch("/productos")
+    fetch("/productos")
 
-.then(res=>res.json())
+        .then(res => res.json())
 
-.then(productos=>{
+        .then(productos => {
+            let contenedor = document.getElementById("productos");
+            contenedor.innerHTML = "";
 
-
-    let contenedor =
-    document.getElementById("productos");
-
-
-
-    productos.forEach(producto=>{
+            productos.forEach(producto => {
 
 
-        contenedor.innerHTML += `
+                contenedor.innerHTML += `
 
 
         <div class="producto-card">
@@ -73,11 +69,11 @@ fetch("/productos")
 
 
 
-    });
+            });
 
 
 
-});
+        });
 
 
 }
@@ -87,25 +83,25 @@ fetch("/productos")
 
 
 
-function agregarProducto(producto){
+function agregarProducto(producto) {
 
 
     let existe = carrito.find(
-        p=>p.id_producto == producto.id_producto
+        p => p.id_producto == producto.id_producto
     );
 
 
 
-    if(existe){
+    if (existe) {
 
 
-        if(existe.cantidadVenta < producto.cantidad){
+        if (existe.cantidadVenta < producto.cantidad) {
 
 
             existe.cantidadVenta++;
 
 
-        }else{
+        } else {
 
 
             alert("No hay más productos disponibles");
@@ -115,7 +111,7 @@ function agregarProducto(producto){
 
 
 
-    }else{
+    } else {
 
 
         producto.cantidadVenta = 1;
@@ -139,37 +135,37 @@ function agregarProducto(producto){
 
 
 
-function mostrarCarrito(){
+function mostrarCarrito() {
 
 
-let tabla =
-document.getElementById("carrito");
-
-
-
-tabla.innerHTML="";
+    let tabla =
+        document.getElementById("carrito");
 
 
 
-let total = 0;
+    tabla.innerHTML = "";
+
+
+
+    let total = 0;
 
 
 
 
-carrito.forEach(producto=>{
+    carrito.forEach(producto => {
 
 
-    let subtotal =
-producto.precio *
-producto.cantidadVenta;
-
-
-
-    total += subtotal;
+        let subtotal =
+            producto.precio *
+            producto.cantidadVenta;
 
 
 
-    tabla.innerHTML += `
+        total += subtotal;
+
+
+
+        tabla.innerHTML += `
 
 
     <tr>
@@ -204,55 +200,17 @@ producto.cantidadVenta;
     `;
 
 
-});
+    });
 
 
 
 
-document.getElementById("total")
-.innerHTML = total;
+    document.getElementById("total")
+        .innerHTML = total;
 
 
 
-calcularCambio();
-
-
-
-}
-
-
-
-
-
-
-
-
-function calcularCambio(){
-
-
-
-let pago =
-
-Number(
-document.getElementById("pago").value
-);
-
-
-
-let total =
-
-Number(
-document.getElementById("total").innerHTML
-);
-
-
-
-let cambio = pago-total;
-
-
-
-document.getElementById("cambio")
-.innerHTML = cambio;
+    calcularCambio();
 
 
 
@@ -264,13 +222,51 @@ document.getElementById("cambio")
 
 
 
-function finalizarVenta(){
+
+function calcularCambio() {
+
+
+
+    let pago =
+
+        Number(
+            document.getElementById("pago").value
+        );
+
+
+
+    let total =
+
+        Number(
+            document.getElementById("total").innerHTML
+        );
+
+
+
+    let cambio = pago - total;
+
+
+
+    document.getElementById("cambio")
+        .innerHTML = cambio;
+
+
+
+}
+
+
+
+
+
+
+
+function finalizarVenta() {
 
 
     console.log("ENTRO A FINALIZAR VENTA");
 
 
-    if(carrito.length == 0){
+    if (carrito.length == 0) {
 
 
         alert("No hay productos en la venta");
@@ -284,9 +280,9 @@ function finalizarVenta(){
 
     let total =
 
-    Number(
-    document.getElementById("total").innerHTML
-    );
+        Number(
+            document.getElementById("total").innerHTML
+        );
 
 
 
@@ -297,88 +293,89 @@ function finalizarVenta(){
 
 
     fetch("/ventas/registrar",
-    {
+        {
 
 
-        method:"POST",
+            method: "POST",
 
 
-        headers:{
+            headers: {
 
 
-            "Content-Type":"application/json"
+                "Content-Type": "application/json"
 
 
-        },
+            },
 
 
-        body:JSON.stringify({
+            body: JSON.stringify({
 
 
-            total:total,
+                total: total,
 
 
-            productos: carrito.map(producto => ({
-            id_producto: producto.id_producto,
-            precio: producto.precio,
-            cantidad: producto.cantidadVenta
+                productos: carrito.map(producto => ({
+                    id_producto: producto.id_producto,
+                    precio: producto.precio,
+                    cantidad: producto.cantidadVenta
 
-}))
+                }))
+
+
+            })
 
 
         })
 
 
-    })
+        .then(res => {
 
 
-    .then(res=>{
+            console.log("Respuesta servidor:", res.status);
 
 
-        console.log("Respuesta servidor:", res.status);
+            return res.json();
 
 
-        return res.json();
+        })
 
 
-    })
+        .then(data => {
 
 
-    .then(data=>{
+            console.log("Datos recibidos:", data);
 
 
-        console.log("Datos recibidos:", data);
-
-
-        alert(data.mensaje);
+            alert(data.mensaje);
 
 
 
-        carrito=[];
+            carrito = [];
 
 
 
-        mostrarCarrito();
+            mostrarCarrito();
+            cargarProductos();
 
 
 
-        document.getElementById("pago").value="";
+            document.getElementById("pago").value = "";
 
 
 
-    })
+        })
 
 
-    .catch(error=>{
+        .catch(error => {
 
 
-        console.log("ERROR FETCH:",error);
+            console.log("ERROR FETCH:", error);
 
 
-        alert("Error al registrar venta");
+            alert("Error al registrar venta");
 
 
-    });
+        });
 
 
 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almacen</title>
+    <link rel="stylesheet" href="/css/almacen.css">
+</head>
+
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Gerente</span>
+            <a href="/login/cerrar" class="boton-salir">
+                Cerrar sesión
+            </a>
+        </div>
+    </header>
+
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <a href="/gerente" class="volver-panel">← Volver al panel</a>
+            <h1>Almacén</h1>
+            <p>Entra, salida y control de materia prima.</p>
+        </section>
+        <section class="estadisticas">
+            <div class="tarjeta-dato">
+                <h3>Total ingredientes</h3>
+                <span id="totalIngredientes">0</span>
+                <p>En inventario</p>
+            </div>
+
+            <div class="tarjeta-dato">
+                <h3>Entradas</h3>
+                <span id="entradasMes">0</span>
+                <p>Ingredientes recibidos</p>
+            </div>
+
+            <div class="tarjeta-dato">
+                <h3>Salidas</h3>
+                <span id="salidas">0</span>
+                <p>Ingredientes utilizados</p>
+            </div>
+
+            <div class="tarjeta-dato">
+                <h3>Stock bajo</h3>
+                <span id="stockBajo">0</span>
+                <p>Stocks a ingresar mas ingredientes</p>
+            </div>
+
+        </section>
+        <section class="paneles">
+            <div class="panel">
+                <h2>Registrar entrada de materia prima</h2>
+                <label>Ingrediente</label>
+                <select id="ingrediente">
+                    <option value="">
+                        Seleccione ingrediente
+                    </option>
+                </select>
+                <label>Cantidad</label>
+                <input id="cantidad" type="number">
+                <label>Unidad</label>
+                <input id="unidad" type="text" readonly>
+                <label>Fecha de entrada</label>
+                <input id="fechaEntrada" type="date">
+                <button onclick="registrarEntrada()">
+                    Registrar entrada
+                </button>
+            </div>
+
+            <div class="panel">
+                <h2>Consulta de inventario</h2>
+                <input id="buscarIngrediente" type="text" placeholder="Buscar ingrediente">
+                <div class="tabla-scroll">
+                    <table class="tabla-inventario">
+                        <thead>
+                            <tr>
+                                <th>Ingrediente</th>
+                                <th>Stock actual</th>
+                                <th>Unidad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaInventario"></tbody>
+                    </table>
+                </div>
+        </section>
+
+        <section class="paneles">
+            <div class="panel">
+                <h2>Últimas entradas</h2>
+                <div class="tabla-scroll">
+                    <table class="tabla-inventario">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Ingrediente</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaEntradas">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Salidas de inventario</h2>
+                <div class="tabla-scroll">
+                    <table class="tabla-inventario">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Ingrediente</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaSalidas">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="/js/almacen.js"></script>
+</body>
+</html>

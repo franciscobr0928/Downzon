@@ -27,4 +27,52 @@ router.get(
     gerenteControlador.mostrarEditarProducto
 );
 
+router.get(
+    '/almacen',
+    verificarRol('Gerente'),
+    gerenteControlador.mostrarAlmacen
+);
+
+router.get(
+    '/almacen/inventario/:id',
+    verificarRol('Gerente'),
+    gerenteControlador.obtenerIngrediente
+);
+
+router.get(
+    '/almacen/inventario',
+    verificarRol('Gerente'),
+    gerenteControlador.obtenerInventario
+);
+
+router.put(
+    '/almacen/entrada',
+    verificarRol('Gerente'),
+    gerenteControlador.agregarEntrada
+);
+
+router.get(
+    '/almacen/entradas',
+    verificarRol('Gerente'),
+    gerenteControlador.obtenerEntradas
+);
+
+router.put(
+    '/almacen/salida',
+    verificarRol('Gerente'),
+    gerenteControlador.retirarStock
+);
+
+router.get(
+    '/almacen/salidas',
+    verificarRol('Gerente'),
+    gerenteControlador.obtenerSalidas
+);
+
+router.get(
+    '/almacen/estadisticas',
+    verificarRol('Gerente'),
+    gerenteControlador.obtenerEstadisticasAlmacen
+);
+
 module.exports = router;

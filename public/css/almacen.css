@@ -216,8 +216,7 @@ body {
     background: white;
     border-radius: 16px;
     overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 450px;
+    height: 430px;
     box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
 }
 
@@ -240,7 +239,8 @@ body {
 
 .tabla-inventario {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .tabla-inventario th {
@@ -250,7 +250,7 @@ body {
     text-align: left;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .tabla-inventario td {

@@ -57,6 +57,7 @@ function retirarStock(id){
     .then(data=>{
         alert(data.mensaje);
         cargarInventario();
+        cargarSalidas();
         cargarEstadisticas();
     })
     .catch(error=>{

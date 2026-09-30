@@ -21,6 +21,7 @@
             <h1>Panel del Gerente</h1>
             <p>Administra las principales funciones de la panadería Downzon.</p>
         </section>
+        <section id="alerta-vencimientos" class="alerta-vencimientos" style="display:none;"></section>
         <section class="opciones-panel">
             <a href="/gerente/productos" class="opcion-panel">
                 <h2>Gestión de productos</h2>
@@ -36,8 +37,22 @@
                     de la panadería.
                 </p>
             </a>
+            <a href="/gerente/produccion" class="opcion-panel">
+                <h2>Historial de producción</h2>
+                <p>
+                    Consulta qué panadero realizó cada producción registrada.
+                </p>
+            </a>
+            <a href="/gerente/vencimientos" class="opcion-panel">
+                <h2>Productos por vencer</h2>
+                <p>
+                    Revisa los productos cuya fecha de consumo preferente
+                    está próxima.
+                </p>
+            </a>
         </section>
     </main>
+    <script src="/js/gerente.js"></script>
 </body>
 
 </html>

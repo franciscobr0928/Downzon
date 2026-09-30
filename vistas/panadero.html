@@ -13,7 +13,7 @@
             <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
         </div>
         <div class="user-info">
-            <span>Panadero</span>
+            <span id="nombre-panadero">Panadero</span>
             <a href="/login/cerrar" class="btn-logout">Cerrar sesión</a>
         </div>
     </header>
@@ -21,6 +21,8 @@
     <main>
         <h2>Panel del Panadero</h2>
         <p class="subtitle">Registra tu producción diaria y consulta las recetas del sistema.</p>
+
+        <div id="alerta-vencimientos" class="alerta-vencimientos" style="display:none;"></div>
 
         <div class="dashboard-grid">
             
@@ -43,6 +45,11 @@
                     <div class="form-group">
                         <label for="cantidad">Cantidad Producida:</label>
                         <input type="number" name="cantidad" id="cantidad" min="1" placeholder="Ej. 30" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha_consumo_preferente">Consumo preferente hasta:</label>
+                        <input type="date" name="fecha_consumo_preferente" id="fecha_consumo_preferente" required>
                     </div>
 
                     <button type="submit" class="btn-submit">Guardar Producción</button>
@@ -76,6 +83,24 @@
                         <tr>
                             <td colspan="3" class="empty-state">Selecciona un producto para ver su receta</td>
                         </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card card-ancha">
+                <h3>Producciones registradas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Consumo preferente</th>
+                            <th>Panadero responsable</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista_producciones">
+                        <tr><td colspan="5" class="empty-state">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>

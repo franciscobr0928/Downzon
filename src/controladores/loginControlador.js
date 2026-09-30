@@ -22,6 +22,8 @@ const iniciarSesion = (req, res) => {
             });
         }
         req.session.usuario = usuario.username;
+        req.session.idUsuario = usuario.id_usuario;
+        req.session.nombre = usuario.nombre;
         req.session.rol = usuario.rol;
         if (usuario.rol === 'Gerente') {
             return res.json({

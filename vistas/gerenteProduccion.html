@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Producción - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Gerente</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-productos">
+            <div>
+                <a href="/gerente" class="volver-panel">← Volver al panel</a>
+                <h1>Historial de producción</h1>
+                <p>Producciones registradas y panadero responsable de cada una.</p>
+            </div>
+        </section>
+        <section class="contenedor-tabla">
+            <table class="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>Fecha de registro</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Consumo preferente</th>
+                        <th>Panadero responsable</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-produccion"></tbody>
+            </table>
+        </section>
+    </main>
+    <script src="/js/gerenteProduccion.js"></script>
+</body>
+</html>

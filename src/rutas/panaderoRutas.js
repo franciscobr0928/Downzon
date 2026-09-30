@@ -24,4 +24,9 @@ router.post(
     panaderoControlador.registrarProduccion
 );
 
+// Datos para la interfaz del panadero
+router.get('/api/perfil', verificarRol('Panadero'), panaderoControlador.obtenerPerfil);
+router.get('/api/produccion', verificarRol('Panadero'), panaderoControlador.obtenerHistorial);
+router.get('/api/vencimientos', verificarRol('Panadero'), panaderoControlador.obtenerVencimientos);
+
 module.exports = router;

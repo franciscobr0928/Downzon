@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const gerenteControlador = require('../controladores/gerenteControlador');
 const { verificarRol } = require('../middlewares/autenticacion');
+const produccionControlador = require('../controladores/produccionControlador');
 
 router.get(
     '/',
@@ -74,5 +75,13 @@ router.get(
     verificarRol('Gerente'),
     gerenteControlador.obtenerEstadisticasAlmacen
 );
+
+// Producción: panadero responsable
+router.get('/produccion', verificarRol('Gerente'), produccionControlador.mostrarHistorial);
+router.get('/produccion/historial', verificarRol('Gerente'), produccionControlador.obtenerHistorial);
+
+// Productos próximos a vencer
+router.get('/vencimientos', verificarRol('Gerente'), produccionControlador.mostrarVencimientos);
+router.get('/vencimientos/api', verificarRol('Gerente'), produccionControlador.obtenerVencimientos);
 
 module.exports = router;

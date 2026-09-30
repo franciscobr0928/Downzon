@@ -330,3 +330,63 @@ body {
         width: 100%;
     }
 }
+/* Productos por vencer */
+.filtro-vencimientos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    color: #68452f;
+}
+
+.filtro-vencimientos select {
+    padding: 10px 14px;
+    border: 1px solid #ddc1a8;
+    border-radius: 12px;
+    background-color: white;
+}
+
+.estado-vencido {
+    color: #9b3333;
+    font-weight: bold;
+}
+
+.estado-hoy {
+    color: #b45f06;
+    font-weight: bold;
+}
+
+.estado-proximo {
+    color: #8a6d00;
+    font-weight: bold;
+}
+
+.alerta-vencimientos {
+    background-color: #fff4e0;
+    border: 1px solid #f0c987;
+    border-left: 6px solid #e08a00;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 30px;
+}
+
+.alerta-vencimientos h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    color: #a35f00;
+}
+
+.alerta-vencimientos ul {
+    margin: 0 0 10px 0;
+    padding-left: 20px;
+}
+
+.alerta-vencimientos .vencido {
+    color: #9b3333;
+    font-weight: bold;
+}
+
+.alerta-vencimientos a {
+    color: #8b5e3c;
+    font-weight: bold;
+}

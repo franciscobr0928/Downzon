@@ -22,7 +22,7 @@ const obtenerRecetaPorProducto = (idProducto, callback) => {
     });
 };
 
-const guardarProduccion = (idProducto, idPanadero, cantidad, callback) => {
+const guardarProduccion = (idProducto, idPanadero, cantidad, fechaConsumoPreferente, callback) => {
     // Iniciamos la transacción directamente en tu conexión actual
     conexion.beginTransaction((errTx) => {
         if (errTx) {
@@ -58,8 +58,8 @@ const guardarProduccion = (idProducto, idPanadero, cantidad, callback) => {
             }
 
             // Paso 1: Registrar en el historial de producción
-            const consultaInsert = `INSERT INTO produccion_diaria (id_producto, id_usuario, cantidad_producida) VALUES (?, ?, ?)`;
-            conexion.query(consultaInsert, [idProducto, idPanadero, cantidad], (errorInsert) => {
+            const consultaInsert = `INSERT INTO produccion_diaria (id_producto, id_usuario, cantidad_producida, fecha_consumo_preferente) VALUES (?, ?, ?, ?)`;
+            conexion.query(consultaInsert, [idProducto, idPanadero, cantidad, fechaConsumoPreferente], (errorInsert) => {
                 if (errorInsert) {
                     return conexion.rollback(() => callback(errorInsert, null));
                 }
@@ -97,7 +97,50 @@ const guardarProduccion = (idProducto, idPanadero, cantidad, callback) => {
     });
 };
 
+// Historial: qué panadero realizó cada producción
+const obtenerHistorialProduccion = (callback) => {
+    const query = `
+        SELECT
+            DATE_FORMAT(pd.fecha_registro, '%Y-%m-%d %H:%i') AS fecha_registro,
+            p.nombre AS producto,
+            pd.cantidad_producida,
+            DATE_FORMAT(pd.fecha_consumo_preferente, '%Y-%m-%d') AS fecha_consumo_preferente,
+            u.nombre AS panadero
+        FROM produccion_diaria pd
+        JOIN productos p ON p.id_producto = pd.id_producto
+        LEFT JOIN usuarios u ON u.id_usuario = pd.id_usuario
+        ORDER BY pd.fecha_registro DESC
+        LIMIT 200
+    `;
+    conexion.query(query, (error, resultados) => callback(error, resultados));
+};
+
+// Productos con consumo preferente próximo (o vencido en los últimos 7 días)
+const obtenerProximosAVencer = (dias, callback) => {
+    const query = `
+        SELECT
+            p.id_producto,
+            p.nombre AS producto,
+            p.cantidad AS stock_actual,
+            pd.cantidad_producida,
+            DATE_FORMAT(pd.fecha_consumo_preferente, '%Y-%m-%d') AS fecha_consumo_preferente,
+            DATEDIFF(pd.fecha_consumo_preferente, CURDATE()) AS dias_restantes,
+            u.nombre AS panadero
+        FROM produccion_diaria pd
+        JOIN productos p ON p.id_producto = pd.id_producto
+        LEFT JOIN usuarios u ON u.id_usuario = pd.id_usuario
+        WHERE pd.fecha_consumo_preferente IS NOT NULL
+          AND pd.fecha_consumo_preferente <= DATE_ADD(CURDATE(), INTERVAL ? DAY)
+          AND pd.fecha_consumo_preferente >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+          AND p.cantidad > 0
+        ORDER BY pd.fecha_consumo_preferente ASC, p.nombre ASC
+    `;
+    conexion.query(query, [dias], (error, resultados) => callback(error, resultados));
+};
+
 module.exports = {
     obtenerRecetaPorProducto,
-    guardarProduccion
+    guardarProduccion,
+    obtenerHistorialProduccion,
+    obtenerProximosAVencer
 };

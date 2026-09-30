@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos por vencer - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Gerente</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-productos">
+            <div>
+                <a href="/gerente" class="volver-panel">← Volver al panel</a>
+                <h1>Productos por vencer</h1>
+                <p>Productos cuya fecha de consumo preferente está próxima.</p>
+            </div>
+            <div class="filtro-vencimientos">
+                <label for="dias">Mostrar los que vencen en:</label>
+                <select id="dias">
+                    <option value="1">1 día</option>
+                    <option value="3" selected>3 días</option>
+                    <option value="5">5 días</option>
+                    <option value="7">7 días</option>
+                    <option value="15">15 días</option>
+                </select>
+            </div>
+        </section>
+        <section class="contenedor-tabla">
+            <table class="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Consumo preferente</th>
+                        <th>Estado</th>
+                        <th>Cantidad producida</th>
+                        <th>Stock actual</th>
+                        <th>Panadero</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-vencimientos"></tbody>
+            </table>
+        </section>
+    </main>
+    <script src="/js/gerenteVencimientos.js"></script>
+</body>
+</html>

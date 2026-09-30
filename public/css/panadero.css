@@ -93,7 +93,7 @@ label {
     font-weight: bold;
 }
 
-select, input[type="number"] {
+select, input[type="number"], input[type="date"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -141,4 +141,39 @@ tr:nth-child(even) {
 .empty-state {
     text-align: center;
     color: #666;
+}
+
+/* Productos por vencer y producciones */
+.card-ancha {
+    grid-column: 1 / -1;
+}
+
+.alerta-vencimientos {
+    background-color: #fff4e0;
+    border: 1px solid #f0c987;
+    border-left: 6px solid #e08a00;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+.alerta-vencimientos h3 {
+    margin: 0 0 8px 0;
+    color: #a35f00;
+}
+
+.alerta-vencimientos ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alerta-vencimientos .vencido {
+    color: #9b3333;
+    font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
 }

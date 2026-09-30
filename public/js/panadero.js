@@ -8,6 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Fecha de consumo preferente: por defecto hoy y no permite fechas pasadas
+    const campoFecha = document.getElementById('fecha_consumo_preferente');
+    if (campoFecha) {
+        const hoy = new Date();
+        const hoyTexto = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+        campoFecha.min = hoyTexto;
+        campoFecha.value = hoyTexto;
+    }
+
+    // Nombre del panadero con sesión iniciada, historial y aviso de vencimientos
+    cargarPerfil();
+    cargarProducciones();
+    cargarVencimientos();
+
     // 2. NUEVA Lógica del formulario interceptado con Fetch
     const formProduccion = document.getElementById('form-produccion');
     if (formProduccion) {
@@ -88,5 +102,74 @@ async function cargarReceta(idProducto) {
     } catch (error) {
         console.error("Error al cargar la receta:", error);
         tbody.innerHTML = '<tr><td colspan="3" style="color: red; text-align: center; padding: 20px;">Ocurrió un error al cargar los ingredientes. Verifica tu consola y conexión.</td></tr>';
+    }
+}
+
+async function cargarPerfil() {
+    try {
+        const r = await fetch('/panadero/api/perfil');
+        if (!r.ok) return;
+        const datos = await r.json();
+        document.getElementById('nombre-panadero').textContent = `Panadero: ${datos.nombre}`;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function cargarProducciones() {
+    const tbody = document.getElementById('lista_producciones');
+    try {
+        const r = await fetch('/panadero/api/produccion');
+        if (!r.ok) throw new Error('Error del servidor');
+        const registros = await r.json();
+        tbody.innerHTML = '';
+        if (registros.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Aún no hay producciones registradas.</td></tr>';
+            return;
+        }
+        registros.forEach(reg => {
+            const tr = document.createElement('tr');
+            [reg.fecha_registro || '-', reg.producto, reg.cantidad_producida,
+             reg.fecha_consumo_preferente || '-', reg.panadero || 'Sin panadero asignado'
+            ].forEach(valor => {
+                const td = document.createElement('td');
+                td.textContent = valor;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        console.error(e);
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No se pudo cargar el historial.</td></tr>';
+    }
+}
+
+async function cargarVencimientos() {
+    const cont = document.getElementById('alerta-vencimientos');
+    try {
+        const r = await fetch('/panadero/api/vencimientos?dias=3');
+        if (!r.ok) return;
+        const productos = await r.json();
+        if (productos.length === 0) {
+            cont.style.display = 'none';
+            return;
+        }
+        cont.innerHTML = '';
+        const titulo = document.createElement('h3');
+        titulo.textContent = 'Productos próximos a vencer (consumo preferente)';
+        cont.appendChild(titulo);
+        const ul = document.createElement('ul');
+        productos.forEach(p => {
+            const li = document.createElement('li');
+            const d = p.dias_restantes;
+            const estado = d < 0 ? `vencido hace ${Math.abs(d)} día(s)` : (d === 0 ? 'vence hoy' : `vence en ${d} día(s)`);
+            li.textContent = `${p.producto}: ${estado} (${p.fecha_consumo_preferente}) - stock ${p.stock_actual}`;
+            if (d <= 0) li.className = 'vencido';
+            ul.appendChild(li);
+        });
+        cont.appendChild(ul);
+        cont.style.display = 'block';
+    } catch (e) {
+        console.error(e);
     }
 }

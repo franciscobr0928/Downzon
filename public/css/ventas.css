@@ -222,3 +222,161 @@ input{
     font-size:16px;
 
 }
+
+
+/* =========================================
+   Apariencia compartida con el panel Downzon
+   ========================================= */
+
+/* Fondo y texto */
+body {
+    background-color: #f7f1e8;
+    color: #33251e;
+}
+
+/* Encabezado superior */
+.barra-superior {
+    box-sizing: border-box;
+    height: 80px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 6%;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.logo-panel {
+    width: 110px;
+    height: auto;
+}
+
+.usuario-panel {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.usuario-panel span {
+    font-weight: bold;
+    color: #68452f;
+}
+
+.boton-salir {
+    background-color: #8b5e3c;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.boton-salir:hover {
+    background-color: #6f472d;
+}
+
+/* Enlace de regreso */
+.volver-panel {
+    color: #8b5e3c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.volver-panel:hover {
+    text-decoration: underline;
+}
+
+/* Título con la apariencia del resto de módulos */
+.titulo-ventas {
+    background: transparent;
+    color: #8b5e3c;
+    padding: 0;
+    border-radius: 0;
+    text-align: left;
+    font-size: 36px;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.contenedor-ventas h2 {
+    color: #8b5e3c;
+}
+
+/* Tarjetas y carrito */
+.producto-card,
+.carrito-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.producto-card h3 {
+    color: #8b5e3c;
+}
+
+.producto-card p {
+    color: #68584f;
+}
+
+/* Botones */
+.producto-card button,
+.btn-finalizar {
+    background-color: #8b5e3c;
+    color: #ffffff;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.producto-card button:hover,
+.btn-finalizar:hover {
+    background-color: #6f472d;
+}
+
+/* Tabla: conserva columnas, tamaño y alineación */
+.carrito-container th {
+    background-color: #8b5e3c;
+    color: #ffffff;
+}
+
+.carrito-container td,
+.carrito-container th {
+    border-bottom-color: #eee4d8;
+}
+
+.carrito-container tbody tr:hover {
+    background-color: #fff8ef;
+}
+
+/* Total, pago y cambio */
+.total {
+    color: #68452f;
+}
+
+.pago-container label {
+    color: #68452f;
+    font-weight: bold;
+}
+
+.pago-container input {
+    background-color: #ffffff;
+    color: #33251e;
+    border-color: #d9c8b8;
+    border-radius: 10px;
+}
+
+.pago-container input:focus {
+    border-color: #8b5e3c;
+    outline: 2px solid #ead7c5;
+    outline-offset: 2px;
+}
+
+/* Encabezado adaptable, igual al panel */
+@media (max-width: 800px) {
+    .barra-superior {
+        padding: 10px 4%;
+    }
+
+    .usuario-panel span {
+        display: none;
+    }
+}

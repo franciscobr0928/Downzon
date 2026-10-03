@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de pedidos - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/pedidos.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Cajero</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <a href="/cajero" class="volver-panel">← Volver al panel</a>
+        <section class="encabezado-formulario">
+            <h1>Registro de pedidos</h1>
+            <p>Registra los productos, su preparación y los datos de entrega.</p>
+        </section>
+        <p id="mensaje-pedido" role="status" aria-live="polite" hidden></p>
+        <form id="form-pedido">
+            <fieldset id="campos-pedido">
+                <section class="contenedor-formulario pedido-seccion">
+                    <h2>Datos del cliente y entrega</h2>
+                    <div class="fila-formulario">
+                        <div class="campo-formulario">
+                            <label for="nombre-cliente">Nombre del cliente *</label>
+                            <input id="nombre-cliente" maxlength="100" autocomplete="name" required>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="telefono">Teléfono de contacto *</label>
+                            <input id="telefono" type="tel" maxlength="30" autocomplete="tel" required>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="tipo-entrega">Forma de entrega *</label>
+                            <select id="tipo-entrega" required>
+                                <option value="Recoger">Recoger en sucursal</option>
+                                <option value="Domicilio">Entrega a domicilio</option>
+                            </select>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="fecha-entrega">Fecha y hora de entrega o recolección *</label>
+                            <input id="fecha-entrega" type="datetime-local" required>
+                        </div>
+                    </div>
+                    <div id="datos-domicilio" class="fila-formulario" hidden>
+                        <div class="campo-formulario">
+                            <label for="direccion">Dirección completa *</label>
+                            <input id="direccion" maxlength="255" autocomplete="street-address" disabled
+                                placeholder="Calle, número, colonia, ciudad y código postal">
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="referencias">Referencias del domicilio</label>
+                            <input id="referencias" maxlength="255" disabled placeholder="Entre calles, color de casa…">
+                        </div>
+                    </div>
+                </section>
+                <section class="contenedor-formulario pedido-seccion">
+                    <h2>Productos del pedido</h2>
+                    <div class="agregar-pedido">
+                        <div class="campo-formulario">
+                            <label for="producto-pedido">Producto</label>
+                            <select id="producto-pedido" disabled><option value="">Cargando productos…</option></select>
+                        </div>
+                        <button type="button" id="agregar-producto" class="boton-guardar" disabled>Agregar producto</button>
+                    </div>
+                    <div class="contenedor-tabla">
+                        <table class="tabla-productos tabla-pedido">
+                            <thead><tr>
+                                <th>Producto</th><th>Cantidad</th><th>Precio</th>
+                                <th>Subtotal</th><th>Indicaciones de preparación</th><th>Acción</th>
+                            </tr></thead>
+                            <tbody id="tabla-pedido"></tbody>
+                        </table>
+                    </div>
+                    <p class="total-pedido">Total de productos: <strong id="total-pedido">$0.00</strong></p>
+                </section>
+                <section class="contenedor-formulario pedido-seccion">
+                    <h2>Indicaciones generales</h2>
+                    <div class="campo-formulario">
+                        <label for="notas-preparacion">Detalles adicionales para preparar el pedido</label>
+                        <textarea id="notas-preparacion" rows="3" maxlength="1000"
+                            placeholder="Ej. empaque por separado, decoración o mensaje del pastel."></textarea>
+                    </div>
+                    <div class="acciones-formulario">
+                        <a href="/cajero" class="boton-cancelar">Volver al panel</a>
+                        <button type="submit" id="guardar-pedido" class="boton-guardar">Registrar pedido</button>
+                    </div>
+                </section>
+            </fieldset>
+        </form>
+    </main>
+    <script src="/js/pedidos.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+#campos-pedido {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+.pedido-seccion { margin-bottom: 25px; }
+.pedido-seccion h2 { color: #8b5e3c; margin: 0 0 24px; font-size: 22px; }
+.pedido-seccion select,
+.pedido-seccion textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d9c8b8;
+    border-radius: 10px;
+    font: inherit;
+    color: #33251e;
+    background: white;
+}
+.pedido-seccion textarea { resize: vertical; }
+.pedido-seccion input:focus-visible,
+.pedido-seccion select:focus-visible,
+.pedido-seccion textarea:focus-visible {
+    outline: 2px solid #8b5e3c;
+    outline-offset: 2px;
+}
+#datos-domicilio { margin-top: 22px; }
+[hidden] { display: none !important; }
+.agregar-pedido {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 24px;
+}
+.tabla-pedido { min-width: 820px; }
+.tabla-pedido input {
+    border: 1px solid #d9c8b8;
+    border-radius: 8px;
+    padding: 10px;
+    font: inherit;
+}
+.tabla-pedido input[type="number"] { width: 95px; }
+.tabla-pedido input[type="text"] { width: 220px; }
+.total-pedido { text-align: right; font-size: 21px; color: #68452f; }
+#mensaje-pedido { padding: 16px 20px; border-radius: 12px; border: 1px solid; }
+.mensaje-exito { color: #285d35; background: #eaf4e9; }
+.mensaje-error { color: #9b3333; background: #fbeaea; }
+button:disabled { opacity: .6; cursor: wait; }
+.tabla-pedido .quitar-producto { background: #f4d6d6; color: #9b3333; }
+@media (max-width: 800px) {
+    .agregar-pedido { grid-template-columns: 1fr; }
+    .pedido-seccion { padding: 22px; }
+}

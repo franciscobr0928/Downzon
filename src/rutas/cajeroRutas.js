@@ -1,40 +1,43 @@
-const express = require("express");
+const express = require('express');
+const path = require('path');
 
 const router = express.Router();
 
-const cajeroControlador = require("../controladores/cajeroControlador");
+const cajeroControlador = require('../controladores/cajeroControlador');
+const pedidoControlador = require('../controladores/pedidoControlador');
 
-const { verificarRol } = require("../middlewares/autenticacion");
+const { verificarRol } = require('../middlewares/autenticacion');
 
-
-
-// Mostrar panel cajero
-
+// Panel del cajero
 router.get(
-    "/",
-    verificarRol("Cajero"),
+    '/',
+    verificarRol('Cajero'),
     cajeroControlador.mostrarPanelCajero
 );
 
-
-
-// Abrir punto de venta
-
+// Punto de venta
 router.get(
-    "/venta",
-    verificarRol("Cajero"),
-    (req,res)=>{
-
+    '/venta',
+    verificarRol('Cajero'),
+    (req, res) => {
         res.sendFile(
-            "ventas.html",
-            {
-                root:"vistas"
-            }
+            path.join(__dirname, '..', '..', 'vistas', 'ventas.html')
         );
-
     }
 );
 
+// Pantalla de registro de pedidos
+router.get(
+    '/pedidos',
+    verificarRol('Cajero'),
+    pedidoControlador.mostrarRegistroPedidos
+);
 
+// Guardar pedido
+router.post(
+    '/pedidos/registrar',
+    verificarRol('Cajero'),
+    pedidoControlador.registrarPedido
+);
 
 module.exports = router;

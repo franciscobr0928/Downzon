@@ -198,4 +198,42 @@ ALTER TABLE produccion_diaria
 
 
 
+#semana 4 de jesus - parte de cajero pedidos
+CREATE TABLE IF NOT EXISTS pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
+    telefono VARCHAR(30) NOT NULL,
+    tipo_entrega ENUM('Recoger', 'Domicilio') NOT NULL,
+    direccion VARCHAR(255) NULL,
+    referencias VARCHAR(255) NULL,
+    fecha_entrega DATETIME NOT NULL,
+    notas_preparacion VARCHAR(1000) NULL,
+    total DECIMAL(12,2) NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'Pendiente',
+    fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_pedidos_usuario FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario),
+    INDEX idx_pedidos_entrega (fecha_entrega)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS detalle_pedido (
+    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    nombre_producto VARCHAR(100) NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(12,2) NOT NULL,
+    indicaciones VARCHAR(500) NULL,
+    CONSTRAINT fk_detalle_pedido_pedido FOREIGN KEY (id_pedido)
+        REFERENCES pedidos(id_pedido),
+    CONSTRAINT fk_detalle_pedido_producto FOREIGN KEY (id_producto)
+        REFERENCES productos(id_producto)
+) ENGINE=InnoDB;
+
+SELECT  * FROM detalle_pedido;
+SELECT  * FROM pedidos;
+
+
 

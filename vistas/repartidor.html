@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repartidor - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/estados.css">
+    <link rel="stylesheet" href="/css/repartidor.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span id="nombre-repartidor">Repartidor</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <h1>Mis entregas</h1>
+            <p>Consulta los pedidos que tienes asignados y actualiza su estado durante el reparto.</p>
+        </section>
+
+        <p id="mensaje" class="mensaje-estado" role="status" aria-live="polite" hidden></p>
+
+        <div class="resumen-entregas" role="group" aria-label="Filtrar entregas">
+            <button type="button" id="filtro-activas" aria-pressed="true">Por entregar (0)</button>
+            <button type="button" id="filtro-entregadas" aria-pressed="false">Entregadas (0)</button>
+            <button type="button" id="actualizar" class="boton-secundario">Actualizar</button>
+        </div>
+
+        <section id="lista-entregas" class="lista-entregas" aria-live="polite"></section>
+    </main>
+    <script src="/js/repartidor.js"></script>
+</body>
+</html>

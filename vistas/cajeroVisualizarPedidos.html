@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar pedidos - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/estados.css">
+    <link rel="stylesheet" href="/css/visualizarPedidos.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span>Cajero</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <a href="/cajero" class="volver-panel">← Volver al panel</a>
+        <section class="encabezado-formulario">
+            <h1>Visualizar pedidos</h1>
+            <p>Consulta el estado de cada pedido, asigna repartidores a las entregas a domicilio y administra a tus repartidores.</p>
+        </section>
+
+        <p id="mensaje" class="mensaje-estado" role="status" aria-live="polite" hidden></p>
+
+        <section class="seccion-pedidos" aria-labelledby="titulo-repartidores">
+            <h2 id="titulo-repartidores">Repartidores</h2>
+            <p>Un repartidor aparece como ocupado mientras tenga una entrega pendiente o en camino.</p>
+            <div id="lista-repartidores" class="lista-repartidores"></div>
+            <p id="sin-repartidores" class="sin-datos" hidden>Aún no hay repartidores dados de alta.</p>
+
+            <details class="alta-repartidor" id="alta-repartidor">
+                <summary>Dar de alta un repartidor</summary>
+                <form id="form-repartidor" autocomplete="off">
+                    <div class="fila-formulario">
+                        <div class="campo-formulario">
+                            <label for="repartidor-nombre">Nombre completo *</label>
+                            <input id="repartidor-nombre" maxlength="100" required>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="repartidor-usuario">Usuario *</label>
+                            <input id="repartidor-usuario" maxlength="50" minlength="3" pattern="[A-Za-z0-9._\-]{3,50}"
+                                title="De 3 a 50 caracteres: letras, números, punto, guion o guion bajo" required>
+                        </div>
+                        <div class="campo-formulario">
+                            <label for="repartidor-password">Contraseña *</label>
+                            <input id="repartidor-password" type="password" minlength="4" maxlength="50"
+                                autocomplete="new-password" required>
+                        </div>
+                    </div>
+                    <div class="acciones-formulario">
+                        <button type="submit" id="guardar-repartidor" class="boton-guardar">Dar de alta</button>
+                    </div>
+                </form>
+            </details>
+        </section>
+
+        <section class="seccion-pedidos" aria-labelledby="titulo-pedidos">
+            <h2 id="titulo-pedidos">Pedidos registrados</h2>
+            <div class="filtros-pedidos">
+                <div id="filtros-estado" class="filtros-pedidos" role="group" aria-label="Filtrar por estado"></div>
+                <form id="form-busqueda" class="buscador-pedidos" role="search">
+                    <input id="busqueda" type="search" maxlength="100"
+                        placeholder="Cliente, teléfono o # de pedido" aria-label="Buscar pedidos">
+                    <button type="submit" class="boton-secundario">Buscar</button>
+                    <button type="button" id="actualizar" class="boton-secundario">Actualizar</button>
+                </form>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-pedidos">
+                    <thead>
+                        <tr>
+                            <th>Pedido</th><th>Cliente</th><th>Entrega</th><th>Total</th>
+                            <th>Estado</th><th>Repartidor</th><th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-pedidos"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <dialog id="dialogo-detalle" aria-labelledby="detalle-titulo">
+        <h2 id="detalle-titulo">Pedido</h2>
+        <div id="detalle-contenido"></div>
+        <div class="acciones-formulario">
+            <button type="button" class="boton-secundario" id="cerrar-detalle">Cerrar</button>
+        </div>
+    </dialog>
+
+    <dialog id="dialogo-asignar" aria-labelledby="asignar-titulo">
+        <form id="form-asignar" method="dialog">
+            <h2 id="asignar-titulo">Asignar repartidor</h2>
+            <p id="asignar-resumen" class="dialogo-ayuda"></p>
+            <label for="asignar-repartidor" class="dialogo-ayuda">Repartidor</label>
+            <select id="asignar-repartidor" class="dialogo-select" required></select>
+            <p class="dialogo-ayuda">Los repartidores ocupados no se pueden seleccionar.</p>
+            <div class="acciones-formulario">
+                <button type="button" class="boton-secundario" id="cancelar-asignar">Cancelar</button>
+                <button type="submit" class="boton-guardar" id="confirmar-asignar">Asignar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script src="/js/visualizarPedidos.js"></script>
+</body>
+</html>

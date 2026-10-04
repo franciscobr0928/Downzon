@@ -17,6 +17,8 @@ const cajeroRutas = require('./src/rutas/cajeroRutas');
 
 const panaderoRutas = require('./src/rutas/panaderoRutas');
 
+const repartidorRutas = require('./src/rutas/repartidorRutas');
+
 const productoRutas = require('./src/rutas/productoRutas');
 
 const ventaRutas = require('./src/rutas/ventaRutas');
@@ -92,6 +94,12 @@ app.use(
 app.use(
     '/panadero',
     panaderoRutas
+);
+
+
+app.use(
+    '/repartidor',
+    repartidorRutas
 );
 
 

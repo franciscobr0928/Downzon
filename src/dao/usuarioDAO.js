@@ -29,6 +29,26 @@ const buscarPorCredenciales = (username, password, callback) => {
     });
 };
 
+// Alta de un empleado con rol Repartidor.
+const crearRepartidor = async (nombre, username, password) => {
+    try {
+        const [resultado] = await conexion.promise().query(
+            `INSERT INTO usuarios (nombre, username, password, rol)
+             VALUES (?, ?, ?, 'Repartidor')`,
+            [nombre, username, password]
+        );
+        return { id_usuario: resultado.insertId, nombre, username };
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            const duplicado = new Error('Ese nombre de usuario ya existe. Elige otro.');
+            duplicado.status = 409;
+            throw duplicado;
+        }
+        throw error;
+    }
+};
+
 module.exports = {
-    buscarPorCredenciales
+    buscarPorCredenciales,
+    crearRepartidor
 };

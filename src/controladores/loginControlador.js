@@ -40,6 +40,11 @@ const iniciarSesion = (req, res) => {
                 redireccion: '/panadero'
             });
         }
+        if (usuario.rol === 'Repartidor') {
+            return res.json({
+                redireccion: '/repartidor'
+            });
+        }
         return res.status(403).json({
             mensaje: 'Rol no reconocido'
         });

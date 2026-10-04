@@ -1,4 +1,13 @@
 const conexionBase = require('../base_de_datos/conexion');
+const { errorHttp, estadosPermitidosCajero } = require('../entidades/pedidos');
+
+// Consultas de solo lectura sobre la conexión compartida.
+const consultar = (sql, parametros = []) =>
+    conexionBase.promise().query(sql, parametros).then(([filas]) => filas);
+
+const cerrar = conexion => conexion.end().catch(error => {
+    console.error('Error al cerrar conexión:', error.message);
+});
 
 const guardarPedido = async (pedido) => {
     const conexion = await conexionBase.crearConexion();
@@ -70,4 +79,97 @@ const guardarPedido = async (pedido) => {
 }
 };
 
-module.exports = { guardarPedido };
+// Datos de un pedido junto con su entrega (si ya tiene repartidor).
+const SELECT_PEDIDO = `
+    SELECT p.id_pedido, p.nombre_cliente, p.telefono, p.tipo_entrega,
+           p.direccion, p.referencias, p.notas_preparacion, p.total, p.estado,
+           DATE_FORMAT(p.fecha_entrega, '%Y-%m-%d %H:%i') AS fecha_entrega,
+           DATE_FORMAT(p.fecha_registro, '%Y-%m-%d %H:%i') AS fecha_registro,
+           e.id_entrega, e.id_repartidor, e.estado AS estado_entrega,
+           u.nombre AS repartidor
+    FROM pedidos p
+    LEFT JOIN entregas e ON e.id_pedido = p.id_pedido
+    LEFT JOIN usuarios u ON u.id_usuario = e.id_repartidor
+`;
+
+const obtenerPedidos = ({ estado, busqueda } = {}) => {
+    const condiciones = [];
+    const parametros = [];
+    if (estado) {
+        condiciones.push('p.estado = ?');
+        parametros.push(estado);
+    }
+    if (busqueda) {
+        const patron = `%${busqueda.replace(/[\\%_]/g, '\\$&')}%`;
+        condiciones.push('(p.nombre_cliente LIKE ? OR p.telefono LIKE ? OR p.id_pedido = ?)');
+        parametros.push(patron, patron, /^\d{1,10}$/.test(busqueda) ? Number(busqueda) : 0);
+    }
+    const donde = condiciones.length ? `WHERE ${condiciones.join(' AND ')}` : '';
+    // Primero los pedidos activos, los más próximos a entregar arriba.
+    return consultar(
+        `${SELECT_PEDIDO} ${donde}
+         ORDER BY (p.estado IN ('Entregado', 'Cancelado')), p.fecha_entrega ASC
+         LIMIT 300`,
+        parametros
+    );
+};
+
+const contarPorEstado = () =>
+    consultar('SELECT estado, COUNT(*) AS total FROM pedidos GROUP BY estado');
+
+const obtenerDetallePedido = async idPedido => {
+    const pedidos = await consultar(`${SELECT_PEDIDO} WHERE p.id_pedido = ?`, [idPedido]);
+    if (!pedidos.length) return null;
+    const productos = await consultar(
+        `SELECT nombre_producto, cantidad, precio_unitario, subtotal, indicaciones
+         FROM detalle_pedido WHERE id_pedido = ? ORDER BY id_detalle_pedido`,
+        [idPedido]
+    );
+    return { pedido: pedidos[0], productos };
+};
+
+// Cambia el estado validando la transición con el pedido bloqueado.
+// Al cancelar libera al repartidor si la entrega aún no salió.
+const cambiarEstadoPedido = async (idPedido, nuevoEstado) => {
+    const conexion = await conexionBase.crearConexion();
+    try {
+        await conexion.beginTransaction();
+        const [pedidos] = await conexion.query(
+            'SELECT estado, tipo_entrega FROM pedidos WHERE id_pedido = ? FOR UPDATE',
+            [idPedido]
+        );
+        if (!pedidos.length) throw errorHttp(404, 'El pedido no existe.');
+        const { estado, tipo_entrega: tipoEntrega } = pedidos[0];
+        if (!estadosPermitidosCajero(estado, tipoEntrega).includes(nuevoEstado)) {
+            throw errorHttp(409, `No se puede cambiar un pedido de "${estado}" a "${nuevoEstado}".`);
+        }
+        if (nuevoEstado === 'Cancelado') {
+            const [entregas] = await conexion.query(
+                'SELECT estado FROM entregas WHERE id_pedido = ? FOR UPDATE',
+                [idPedido]
+            );
+            if (entregas.length && entregas[0].estado === 'En camino') {
+                throw errorHttp(409, 'El repartidor ya va en camino; el pedido no se puede cancelar.');
+            }
+            if (entregas.length) {
+                await conexion.query('DELETE FROM entregas WHERE id_pedido = ?', [idPedido]);
+            }
+        }
+        await conexion.query('UPDATE pedidos SET estado = ? WHERE id_pedido = ?', [nuevoEstado, idPedido]);
+        await conexion.commit();
+        return { id_pedido: idPedido, estado: nuevoEstado };
+    } catch (error) {
+        await conexion.rollback().catch(() => {});
+        throw error;
+    } finally {
+        await cerrar(conexion);
+    }
+};
+
+module.exports = {
+    guardarPedido,
+    obtenerPedidos,
+    contarPorEstado,
+    obtenerDetallePedido,
+    cambiarEstadoPedido
+};

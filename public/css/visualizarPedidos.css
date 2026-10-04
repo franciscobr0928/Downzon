@@ -1,0 +1,134 @@
+.filtros-pedidos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+.filtros-pedidos button {
+    border: 1px solid #d9c8b8;
+    background: white;
+    color: #68452f;
+    padding: 8px 16px;
+    border-radius: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+.filtros-pedidos button[aria-pressed="true"] {
+    background: #8b5e3c;
+    border-color: #8b5e3c;
+    color: white;
+}
+.buscador-pedidos { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+.buscador-pedidos input {
+    padding: 9px 14px;
+    border: 1px solid #d9c8b8;
+    border-radius: 12px;
+    font-size: 15px;
+    width: 250px;
+}
+
+.seccion-pedidos { margin-bottom: 35px; }
+.seccion-pedidos > h2 { color: #8b5e3c; font-size: 24px; margin: 0 0 6px; }
+.seccion-pedidos > p { margin: 0 0 18px; color: #68584f; }
+
+/* Repartidores */
+.lista-repartidores {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+.tarjeta-repartidor {
+    background: white;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+    border-left: 6px solid #6aa56f;
+}
+.tarjeta-repartidor.ocupado { border-left-color: #d98a4e; }
+.tarjeta-repartidor h3 { margin: 0 0 4px; font-size: 18px; color: #33251e; }
+.tarjeta-repartidor .usuario { margin: 0 0 10px; color: #68584f; font-size: 14px; }
+.tarjeta-repartidor .detalle { margin: 8px 0 0; font-size: 14px; color: #68584f; }
+.sin-datos { color: #68584f; margin: 0 0 18px; }
+
+.alta-repartidor {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+    padding: 6px 22px;
+}
+.alta-repartidor summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #68452f;
+    padding: 14px 0;
+}
+.alta-repartidor form { padding: 6px 0 20px; }
+.alta-repartidor .fila-formulario { grid-template-columns: repeat(3, 1fr); }
+.alta-repartidor .campo-formulario input { width: 100%; }
+.alta-repartidor .acciones-formulario { margin-top: 18px; }
+
+/* Tabla de pedidos */
+.tabla-pedidos { width: 100%; border-collapse: collapse; min-width: 980px; }
+.tabla-pedidos th {
+    background: #8b5e3c;
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    white-space: nowrap;
+}
+.tabla-pedidos td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee4d8;
+    vertical-align: top;
+}
+.tabla-pedidos tbody tr:hover { background: #fff8ef; }
+.tabla-pedidos .secundario { display: block; color: #68584f; font-size: 14px; margin-top: 2px; }
+.tabla-pedidos .numero { font-weight: bold; color: #8b5e3c; }
+.acciones-pedido { display: flex; flex-wrap: wrap; gap: 6px; min-width: 190px; }
+.acciones-pedido button {
+    border: none;
+    padding: 7px 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    background: #ead7c5;
+    color: #68452f;
+}
+.acciones-pedido button:hover:not(:disabled) { background: #ddc1a8; }
+.acciones-pedido .avanzar { background: #8b5e3c; color: white; }
+.acciones-pedido .avanzar:hover:not(:disabled) { background: #6f472d; }
+.acciones-pedido .cancelar { background: #f4d6d6; color: #9b3333; }
+.acciones-pedido .cancelar:hover:not(:disabled) { background: #e8bcbc; }
+
+/* Diálogos */
+.dialogo-datos { display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; margin: 18px 0; }
+.dialogo-datos dt { font-weight: bold; color: #68452f; }
+.dialogo-datos dd { margin: 0; overflow-wrap: anywhere; }
+.dialogo-tabla { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+.dialogo-tabla th { text-align: left; padding: 8px; border-bottom: 2px solid #eee4d8; color: #68452f; }
+.dialogo-tabla td { padding: 8px; border-bottom: 1px solid #eee4d8; vertical-align: top; }
+.dialogo-total { text-align: right; font-size: 19px; color: #68452f; margin: 10px 0 0; }
+.dialogo-select { width: 100%; padding: 12px 14px; border: 1px solid #d9c8b8; border-radius: 10px; font: inherit; margin: 14px 0 4px; background: white; }
+.dialogo-ayuda { color: #68584f; font-size: 14px; margin: 6px 0 0; }
+dialog .acciones-formulario { margin-top: 22px; }
+
+@media (max-width: 800px) {
+    .buscador-pedidos { margin-left: 0; width: 100%; }
+    .buscador-pedidos input { flex: 1; width: auto; }
+    .alta-repartidor .fila-formulario { grid-template-columns: 1fr; }
+    .dialogo-datos { grid-template-columns: 1fr; gap: 2px; }
+    .dialogo-datos dd { margin-bottom: 10px; }
+}
+
+dialog label.dialogo-ayuda {
+    display: block;
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #68452f;
+}
+dialog label.dialogo-ayuda + .dialogo-select { margin-top: 6px; }

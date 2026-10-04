@@ -236,4 +236,36 @@ SELECT  * FROM detalle_pedido;
 SELECT  * FROM pedidos;
 
 
+USE downzon;
+
+-- SEMANA 4 YO
+-- 1) Nuevo rol de empleado: 'Repartidor' (se guarda en usuarios.rol).
+--    Usuario de ejemplo; el cajero puede dar de alta más desde el sistema.
+INSERT IGNORE INTO usuarios (nombre, username, password, rol) VALUES
+('Repartidor Downzon', 'repartidor', '1234', 'Repartidor');
+
+select * from usuarios;
+
+-- 2) Una entrega = un pedido a domicilio asignado a un repartidor.
+--    UNIQUE(id_pedido) garantiza que un pedido nunca tenga dos repartidores.
+CREATE TABLE IF NOT EXISTS entregas (
+    id_entrega INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_repartidor INT NOT NULL,
+    estado ENUM('Pendiente', 'En camino', 'Entregada') NOT NULL DEFAULT 'Pendiente',
+    fecha_asignacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_salida DATETIME NULL,
+    fecha_entregada DATETIME NULL,
+    CONSTRAINT uq_entregas_pedido UNIQUE (id_pedido),
+    CONSTRAINT fk_entregas_pedido FOREIGN KEY (id_pedido)
+        REFERENCES pedidos(id_pedido),
+    CONSTRAINT fk_entregas_repartidor FOREIGN KEY (id_repartidor)
+        REFERENCES usuarios(id_usuario),
+    INDEX idx_entregas_repartidor_estado (id_repartidor, estado)
+) ENGINE=InnoDB;
+
+-- Estados válidos de pedidos.estado (los valida la aplicación):
+--   'Pendiente', 'En preparación', 'Terminado', 'Entregado', 'Cancelado'
+
+select * from entregas;
 

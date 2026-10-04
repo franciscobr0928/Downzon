@@ -1,0 +1,52 @@
+.resumen-entregas { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+.resumen-entregas button {
+    border: 1px solid #d9c8b8;
+    background: white;
+    color: #68452f;
+    padding: 10px 20px;
+    border-radius: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
+.resumen-entregas button[aria-pressed="true"] { background: #8b5e3c; border-color: #8b5e3c; color: white; }
+
+.lista-entregas { display: grid; gap: 20px; }
+.tarjeta-entrega {
+    background: white;
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .08);
+    border-left: 6px solid #d98a4e;
+}
+.tarjeta-entrega.en-camino { border-left-color: #4a7ac2; }
+.tarjeta-entrega.entregada { border-left-color: #6aa56f; }
+.entrega-cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.entrega-cabecera h2 { margin: 0; font-size: 22px; color: #8b5e3c; }
+.entrega-cabecera .cliente { margin: 4px 0 0; font-weight: bold; }
+
+.datos-entrega { display: grid; grid-template-columns: 150px 1fr; gap: 8px 14px; margin: 0 0 16px; }
+.datos-entrega dt { font-weight: bold; color: #68452f; }
+.datos-entrega dd { margin: 0; overflow-wrap: anywhere; }
+.datos-entrega a { color: #8b5e3c; font-weight: bold; }
+.productos-entrega { margin: 0 0 16px; padding-left: 20px; color: #33251e; }
+.productos-entrega .nota { color: #68584f; font-size: 14px; }
+
+.aviso-entrega {
+    background: #fff4e0;
+    border: 1px solid #f0c987;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 0 0 16px;
+    color: #a35f00;
+}
+.acciones-entrega { display: flex; gap: 12px; flex-wrap: wrap; }
+.acciones-entrega button { padding: 14px 24px; font-size: 17px; }
+.entrega-vacia { background: white; border-radius: 16px; padding: 40px; text-align: center; color: #68584f; box-shadow: 0 5px 18px rgba(0, 0, 0, .08); }
+
+@media (max-width: 800px) {
+    .datos-entrega { grid-template-columns: 1fr; gap: 2px; }
+    .datos-entrega dd { margin-bottom: 10px; }
+    .acciones-entrega button { width: 100%; }
+    .tarjeta-entrega { padding: 20px; }
+}

@@ -1,5 +1,12 @@
 const path = require('path');
 const pedidoDAO = require('../dao/pedidoDAO');
+const {
+    ESTADOS_PEDIDO,
+    estadosPermitidosCajero,
+    pedidoAsignable,
+    responderError,
+    enteroPositivo
+} = require('../entidades/pedidos');
 
 const mostrarRegistroPedidos = (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'cajeroPedidos.html'));
@@ -77,4 +84,69 @@ const registrarPedido = async (req, res) => {
     }
 };
 
-module.exports = { mostrarRegistroPedidos, registrarPedido };
+const mostrarVisualizarPedidos = (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'cajeroVisualizarPedidos.html'));
+};
+
+// Agrega al pedido las acciones que el cajero puede hacer sobre él.
+const conAcciones = pedido => ({
+    ...pedido,
+    estados_siguientes: estadosPermitidosCajero(pedido.estado, pedido.tipo_entrega),
+    asignable: pedidoAsignable(pedido.estado, pedido.tipo_entrega) &&
+        (!pedido.estado_entrega || pedido.estado_entrega === 'Pendiente')
+});
+
+const listarPedidos = async (req, res) => {
+    const estado = typeof req.query.estado === 'string' ? req.query.estado : '';
+    if (estado && !ESTADOS_PEDIDO.includes(estado)) {
+        return res.status(400).json({ mensaje: 'Estado de pedido no válido.' });
+    }
+    const busqueda = (typeof req.query.q === 'string' ? req.query.q.trim() : '').slice(0, 100);
+    try {
+        const [pedidos, conteos] = await Promise.all([
+            pedidoDAO.obtenerPedidos({ estado, busqueda }),
+            pedidoDAO.contarPorEstado()
+        ]);
+        const totales = Object.fromEntries(ESTADOS_PEDIDO.map(e => [e, 0]));
+        conteos.forEach(fila => { if (fila.estado in totales) totales[fila.estado] = fila.total; });
+        res.json({ pedidos: pedidos.map(conAcciones), conteos: totales });
+    } catch (error) {
+        responderError(res, error, 'No se pudieron consultar los pedidos.');
+    }
+};
+
+const obtenerDetallePedido = async (req, res) => {
+    const idPedido = enteroPositivo(req.params.id);
+    if (!idPedido) return res.status(400).json({ mensaje: 'Pedido no válido.' });
+    try {
+        const detalle = await pedidoDAO.obtenerDetallePedido(idPedido);
+        if (!detalle) return res.status(404).json({ mensaje: 'El pedido no existe.' });
+        res.json({ pedido: conAcciones(detalle.pedido), productos: detalle.productos });
+    } catch (error) {
+        responderError(res, error, 'No se pudo consultar el pedido.');
+    }
+};
+
+const cambiarEstadoPedido = async (req, res) => {
+    const idPedido = enteroPositivo(req.params.id);
+    const estado = (req.body || {}).estado;
+    if (!idPedido) return res.status(400).json({ mensaje: 'Pedido no válido.' });
+    if (!ESTADOS_PEDIDO.includes(estado)) {
+        return res.status(400).json({ mensaje: 'Estado de pedido no válido.' });
+    }
+    try {
+        await pedidoDAO.cambiarEstadoPedido(idPedido, estado);
+        res.json({ mensaje: `Pedido #${idPedido} actualizado a "${estado}".` });
+    } catch (error) {
+        responderError(res, error, 'No se pudo actualizar el estado del pedido.');
+    }
+};
+
+module.exports = {
+    mostrarRegistroPedidos,
+    registrarPedido,
+    mostrarVisualizarPedidos,
+    listarPedidos,
+    obtenerDetallePedido,
+    cambiarEstadoPedido
+};

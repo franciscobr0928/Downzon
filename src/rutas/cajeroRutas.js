@@ -5,6 +5,7 @@ const router = express.Router();
 
 const cajeroControlador = require('../controladores/cajeroControlador');
 const pedidoControlador = require('../controladores/pedidoControlador');
+const entregaControlador = require('../controladores/entregaControlador');
 
 const { verificarRol } = require('../middlewares/autenticacion');
 
@@ -39,5 +40,18 @@ router.post(
     verificarRol('Cajero'),
     pedidoControlador.registrarPedido
 );
+
+// Visualizar pedidos: consulta, seguimiento, repartidores y asignación
+router.get(
+    '/visualizar-pedidos',
+    verificarRol('Cajero'),
+    pedidoControlador.mostrarVisualizarPedidos
+);
+router.get('/api/pedidos', verificarRol('Cajero'), pedidoControlador.listarPedidos);
+router.get('/api/pedidos/:id', verificarRol('Cajero'), pedidoControlador.obtenerDetallePedido);
+router.put('/api/pedidos/:id/estado', verificarRol('Cajero'), pedidoControlador.cambiarEstadoPedido);
+router.put('/api/pedidos/:id/repartidor', verificarRol('Cajero'), entregaControlador.asignarRepartidor);
+router.get('/api/repartidores', verificarRol('Cajero'), entregaControlador.listarRepartidores);
+router.post('/api/repartidores', verificarRol('Cajero'), entregaControlador.altaRepartidor);
 
 module.exports = router;

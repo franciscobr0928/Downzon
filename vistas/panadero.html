@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel del Panadero - Downzon</title>
+    <title>Registrar producción - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
     <link rel="stylesheet" href="/css/panadero.css">
 </head>
 <body>
-
-    <header class="encabezado">
-        <div class="logo-container">
-            <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
-        </div>
-        <div class="user-info">
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
             <span id="nombre-panadero">Panadero</span>
-            <a href="/login/cerrar" class="btn-logout">Cerrar sesión</a>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
         </div>
     </header>
-
-    <main>
-        <h2>Panel del Panadero</h2>
-        <p class="subtitle">Registra tu producción diaria y consulta las recetas del sistema.</p>
-
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <a href="/panadero" class="volver-panel">← Volver al panel</a>
+            <h1>Registrar producción</h1>
+            <p>Registra los productos elaborados y su fecha de consumo preferente.</p>
+        </section>
         <div id="alerta-vencimientos" class="alerta-vencimientos" style="display:none;"></div>
-
-        <div class="dashboard-grid">
-            
+        <section class="dashboard-grid">
             <div class="card">
-                <h3>Registrar Producción</h3>
+                <h3>Datos de producción</h3>
                 <form id="form-produccion" action="/panadero/produccion/registrar" method="POST">
                     <div class="form-group">
                         <label for="producto">Producto Elaborado:</label>
@@ -56,58 +53,8 @@
                 </form>
             </div>
 
-            <div class="card">
-                <h3>Consulta de Recetas</h3>
-                <div class="form-group">
-                    <label for="receta_busqueda">Seleccionar receta para ver ingredientes:</label>
-                    <select id="receta_busqueda">
-                        <option value="">Selecciona un producto...</option>
-                        <option value="1">Concha</option>
-                        <option value="2">Cuernito</option>
-                        <option value="3">Dona de chocolate</option>
-                        <option value="4">Bolillo</option>
-                        <option value="5">Pan dulce</option>
-                        <option value="6">Pastel</option>
-                    </select>
-                </div>
-
-                <table id="tabla_ingredientes">
-                    <thead>
-                        <tr>
-                            <th>Ingrediente</th>
-                            <th>Cantidad</th>
-                            <th>Unidad</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista_ingredientes">
-                        <tr>
-                            <td colspan="3" class="empty-state">Selecciona un producto para ver su receta</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card card-ancha">
-                <h3>Producciones registradas</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Consumo preferente</th>
-                            <th>Panadero responsable</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista_producciones">
-                        <tr><td colspan="5" class="empty-state">Cargando...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        </section>
     </main>
-
-    <!-- Enlace al nuevo archivo JavaScript -->
     <script src="/js/panadero.js"></script>
 </body>
 </html>

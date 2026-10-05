@@ -1,22 +1,29 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f3e5d0;
+    background-color: #f7f1e8;
+    color: #33251e;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    height: 100vh;
+    min-height: 100vh;
+    padding: 24px;
 }
 
 .login-contenedor {
     background-color: white;
-    width: 350px;
+    width: 430px;
+    max-width: 100%;
 
     padding: 40px;
 
-    border-radius: 12px;
+    border-radius: 16px;
 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -104,4 +111,9 @@ button:hover {
     text-align: center;
     color: #b3261e;
     font-weight: bold;
+}
+@media (max-width: 800px) {
+    .login-contenedor {
+        padding: 30px 24px;
+    }
 }

@@ -1,112 +1,59 @@
-:root {
-    --bg-color: #f7ede2;
-    --primary-brown: #8c5a35;
-    --btn-brown: #a67b5b;
-    --text-dark: #333333;
-    --white: #ffffff;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--bg-color);
-    margin: 0;
-    padding: 0;
-    color: var(--text-dark);
-}
-
-
-
-header {
-    background-color: var(--bg-color);
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #e3d5c8;
-}
-
-.logo-panel {
-    width: 110px;
-    height: auto;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.btn-logout {
-    background-color: var(--primary-brown);
-    color: var(--white);
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-main {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 20px;
-}
-
-h2 {
-    color: var(--primary-brown);
-    margin-bottom: 5px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
-}
-
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
 }
 
 .card {
-    background-color: var(--white);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    min-width: 0;
+    background-color: white;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
 }
 
 .card h3 {
-    color: var(--primary-brown);
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    color: #8b5e3c;
+    margin: 0 0 24px;
+    font-size: 22px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 22px;
 }
 
-label {
+.form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
+    color: #68452f;
 }
 
-select, input[type="number"], input[type="date"] {
+.form-group select,
+.form-group input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #d9c8b8;
+    border-radius: 10px;
+    font: inherit;
+    background-color: white;
+    color: #33251e;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    border-color: #8b5e3c;
+    outline: 2px solid #ead7c5;
+    outline-offset: 2px;
 }
 
 .btn-submit {
-    background-color: var(--btn-brown);
-    color: var(--white);
+    background-color: #8b5e3c;
+    color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 22px;
+    border-radius: 20px;
     cursor: pointer;
     width: 100%;
     font-weight: bold;
@@ -114,66 +61,42 @@ select, input[type="number"], input[type="date"] {
 }
 
 .btn-submit:hover {
-    background-color: var(--primary-brown);
+    background-color: #6f472d;
 }
 
-table {
+.card .contenedor-tabla {
+    box-shadow: none;
+}
+
+.card table {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
-    margin-top: 15px;
 }
 
-th, td {
+.card th {
+    background-color: #8b5e3c;
+    color: white;
+    padding: 16px;
     text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: var(--primary-brown);
-    color: var(--white);
+.card td {
+    padding: 15px 16px;
+    border-bottom: 1px solid #eee4d8;
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+.card tbody tr:hover {
+    background-color: #fff8ef;
 }
 
 .empty-state {
     text-align: center;
-    color: #666;
-}
-
-/* Productos por vencer y producciones */
-.card-ancha {
-    grid-column: 1 / -1;
-}
-
-.alerta-vencimientos {
-    background-color: #fff4e0;
-    border: 1px solid #f0c987;
-    border-left: 6px solid #e08a00;
-    border-radius: 10px;
-    padding: 15px 20px;
-    margin-bottom: 20px;
-}
-
-.alerta-vencimientos h3 {
-    margin: 0 0 8px 0;
-    color: #a35f00;
-}
-
-.alerta-vencimientos ul {
-    margin: 0;
-    padding-left: 20px;
-}
-
-.alerta-vencimientos .vencido {
-    color: #9b3333;
-    font-weight: bold;
+    color: #68584f;
 }
 
 @media (max-width: 800px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
+    .card {
+        padding: 22px;
     }
 }

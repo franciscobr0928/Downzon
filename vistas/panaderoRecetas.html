@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de recetas - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/panadero.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span id="nombre-panadero">Panadero</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <a href="/panadero" class="volver-panel">← Volver al panel</a>
+            <h1>Consulta de recetas</h1>
+            <p>Selecciona un producto para consultar sus ingredientes y cantidades.</p>
+        </section>
+        <div id="alerta-vencimientos" class="alerta-vencimientos" style="display:none;"></div>
+        <section class="dashboard-grid">
+            <div class="card">
+                <h3>Ingredientes de la receta</h3>
+                <div class="form-group">
+                    <label for="receta_busqueda">Seleccionar receta para ver ingredientes:</label>
+                    <select id="receta_busqueda">
+                        <option value="">Selecciona un producto...</option>
+                        <option value="1">Concha</option>
+                        <option value="2">Cuernito</option>
+                        <option value="3">Dona de chocolate</option>
+                        <option value="4">Bolillo</option>
+                        <option value="5">Pan dulce</option>
+                        <option value="6">Pastel</option>
+                    </select>
+                </div>
+
+                <div class="contenedor-tabla">
+                <table id="tabla_ingredientes">
+                    <thead>
+                        <tr>
+                            <th>Ingrediente</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista_ingredientes">
+                        <tr>
+                            <td colspan="3" class="empty-state">Selecciona un producto para ver su receta</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+    <script src="/js/panadero.js"></script>
+</body>
+</html>

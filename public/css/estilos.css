@@ -14,7 +14,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 7%;
+    padding: 10px 6%;
     background-color: white;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
@@ -39,9 +39,9 @@ body {
 }
 
 .presentacion {
-    width: 85%;
+    width: 88%;
     max-width: 1200px;
-    margin: 60px auto;
+    margin: 50px auto;
     padding: 60px;
     background-color: white;
     border-radius: 25px;
@@ -93,9 +93,9 @@ body {
 }
 
 .productos {
-    width: 85%;
+    width: 88%;
     max-width: 1200px;
-    margin: 80px auto;
+    margin: 50px auto;
 }
 
 .titulo-seccion {
@@ -213,8 +213,12 @@ footer p {
         grid-template-columns: 1fr;
     }
 
+    .encabezado {
+        padding: 10px 4%;
+    }
+
     .logo-encabezado {
-        width: 140px;
+        width: 110px;
     }
 
     .controles-productos {

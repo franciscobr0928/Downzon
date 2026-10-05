@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Muestra el mensaje que viene desde el controlador
                 alert(resultado.mensaje);
                 // Recarga la misma página para limpiar el formulario y actualizar la vista
-                window.location.href = '/panadero'; 
+                window.location.href = '/panadero/produccion'; 
             })
             .catch(error => {
                 console.error(error);
@@ -118,6 +118,7 @@ async function cargarPerfil() {
 
 async function cargarProducciones() {
     const tbody = document.getElementById('lista_producciones');
+    if (!tbody) return;
     try {
         const r = await fetch('/panadero/api/produccion');
         if (!r.ok) throw new Error('Error del servidor');
@@ -146,6 +147,7 @@ async function cargarProducciones() {
 
 async function cargarVencimientos() {
     const cont = document.getElementById('alerta-vencimientos');
+    if (!cont) return;
     try {
         const r = await fetch('/panadero/api/vencimientos?dias=3');
         if (!r.ok) return;

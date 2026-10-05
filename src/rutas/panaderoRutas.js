@@ -1,14 +1,26 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 const panaderoControlador = require('../controladores/panaderoControlador');
 const { verificarRol } = require('../middlewares/autenticacion');
 
-// Ruta principal: Mostrar el panel HTML
+// Panel de opciones del panadero
 router.get(
     '/',
     verificarRol('Panadero'),
-    panaderoControlador.mostrarPanelPanadero
+    (req, res) => {
+        res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'panaderoPanel.html'));
+    }
 );
+
+// Vistas de las funciones existentes
+router.get('/produccion', verificarRol('Panadero'), panaderoControlador.mostrarPanelPanadero);
+router.get('/recetas', verificarRol('Panadero'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'panaderoRecetas.html'));
+});
+router.get('/historial', verificarRol('Panadero'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'panaderoHistorial.html'));
+});
 
 // Nueva ruta: API para obtener los ingredientes de una receta por ID
 router.get(

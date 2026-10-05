@@ -1,4 +1,3 @@
-create database downzone;
 USE downzon;
 
 CREATE TABLE usuarios (
@@ -26,7 +25,6 @@ CREATE TABLE productos (
     imagen VARCHAR(100)
 );
 
-
 INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES
 ('Concha', 'Pan dulce tradicional', 12.00, 30),
 ('Cuernito', 'Pan suave recién horneado', 15.00, 20),
@@ -36,9 +34,6 @@ INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES
 ('Pastel', 'Pastel para diferentes ocasiones', 250.00, 5);
 
 SELECT * FROM productos;
-
-
-
 
 CREATE TABLE ventas (
     id_venta INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,9 +56,6 @@ CREATE TABLE detalle_venta (
     REFERENCES productos(id_producto)
 );
 
-
-
-#codigo nuevo papus
 CREATE TABLE inventario (
     id_inventario INT AUTO_INCREMENT PRIMARY KEY,
     ingrediente VARCHAR(100) NOT NULL,
@@ -71,6 +63,7 @@ CREATE TABLE inventario (
     unidad VARCHAR(20) NOT NULL,
     estado VARCHAR(30) NOT NULL
 );
+
 INSERT INTO inventario 
 (ingrediente, stock_actual, unidad, estado)
 VALUES
@@ -88,7 +81,6 @@ VALUES
 
 SELECT * FROM inventario;
 
-
 CREATE TABLE entradas_inventario (
     id_entrada INT AUTO_INCREMENT PRIMARY KEY,
     id_inventario INT NOT NULL,
@@ -99,7 +91,9 @@ CREATE TABLE entradas_inventario (
     FOREIGN KEY(id_inventario)
     REFERENCES inventario(id_inventario)
 );
+
 DESCRIBE entradas_inventario;
+
 select*from entradas_inventario;
 
 CREATE TABLE salidas_inventario (
@@ -112,11 +106,9 @@ CREATE TABLE salidas_inventario (
     FOREIGN KEY(id_inventario)
     REFERENCES inventario(id_inventario)
 );
+
 select*from salidas_inventario;
 
-
-
-#Nuevo codigo de osmar--------------------------------------------------------------------------
 CREATE TABLE recetas (
     id_producto INT,
     id_inventario INT,
@@ -187,18 +179,13 @@ FROM recetas r
 JOIN productos p ON r.id_producto = p.id_producto
 JOIN inventario i ON r.id_inventario = i.id_inventario
 ORDER BY p.id_producto;
-#nuevo codigo ninooooooo-------------------------------
+
 ALTER TABLE produccion_diaria
     ADD COLUMN fecha_consumo_preferente DATE NULL;
 
 ALTER TABLE produccion_diaria
     ADD COLUMN fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
-
-
-
-
-#semana 4 de jesus - parte de cajero pedidos
 CREATE TABLE IF NOT EXISTS pedidos (
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -235,19 +222,11 @@ CREATE TABLE IF NOT EXISTS detalle_pedido (
 SELECT  * FROM detalle_pedido;
 SELECT  * FROM pedidos;
 
-
-USE downzon;
-
--- SEMANA 4 YO
--- 1) Nuevo rol de empleado: 'Repartidor' (se guarda en usuarios.rol).
---    Usuario de ejemplo; el cajero puede dar de alta más desde el sistema.
 INSERT IGNORE INTO usuarios (nombre, username, password, rol) VALUES
 ('Repartidor Downzon', 'repartidor', '1234', 'Repartidor');
 
 select * from usuarios;
 
--- 2) Una entrega = un pedido a domicilio asignado a un repartidor.
---    UNIQUE(id_pedido) garantiza que un pedido nunca tenga dos repartidores.
 CREATE TABLE IF NOT EXISTS entregas (
     id_entrega INT AUTO_INCREMENT PRIMARY KEY,
     id_pedido INT NOT NULL,
@@ -264,8 +243,4 @@ CREATE TABLE IF NOT EXISTS entregas (
     INDEX idx_entregas_repartidor_estado (id_repartidor, estado)
 ) ENGINE=InnoDB;
 
--- Estados válidos de pedidos.estado (los valida la aplicación):
---   'Pendiente', 'En preparación', 'Terminado', 'Entregado', 'Cancelado'
-
 select * from entregas;
-

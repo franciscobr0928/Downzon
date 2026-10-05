@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Repartidor - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span id="nombre-repartidor" data-perfil="/repartidor/api/perfil">Repartidor</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <a href="/" class="volver-panel">← Volver al inicio</a>
+            <h1>Panel del Repartidor</h1>
+            <p>Selecciona la función que deseas realizar en Downzon.</p>
+        </section>
+        <section class="opciones-panel">
+            <a href="/repartidor/entregas" class="opcion-panel">
+                <h2>Mis entregas</h2>
+                <p>Consulta tus pedidos asignados, actualiza su estado y revisa las entregas realizadas.</p>
+            </a>
+        </section>
+    </main>
+    <script src="/js/panelRol.js"></script>
+</body>
+</html>

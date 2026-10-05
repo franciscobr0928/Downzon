@@ -52,31 +52,41 @@ body {
     width: 88%;
     max-width: 1200px;
     margin: 50px auto;
+    min-width: 0;
 }
 
-.encabezado-panel {
-    margin-bottom: 40px;
+.encabezado-panel,
+.encabezado-productos,
+.encabezado-formulario {
+    margin-top: 0;
+    margin-bottom: 30px;
 }
 
-.encabezado-panel h1 {
+.encabezado-panel h1,
+.encabezado-productos h1,
+.encabezado-formulario h1 {
+    margin-top: 15px;
     margin-bottom: 10px;
     font-size: 36px;
     color: #8b5e3c;
 }
 
-.encabezado-panel p {
+.encabezado-panel p,
+.encabezado-productos p,
+.encabezado-formulario p {
     margin: 0;
     color: #68584f;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .opciones-panel {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 25px;
 }
 
 .opcion-panel {
+    min-width: 0;
     background-color: white;
     border-radius: 16px;
     padding: 30px;
@@ -124,19 +134,8 @@ body {
     margin-bottom: 30px;
 }
 
-.encabezado-productos h1 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 36px;
-    color: #8b5e3c;
-}
-
-.encabezado-productos p {
-    margin: 0;
-    color: #68584f;
-}
-
 .volver-panel {
+    display: inline-block;
     color: #8b5e3c;
     text-decoration: none;
     font-weight: bold;
@@ -222,23 +221,8 @@ body {
     }
 }
 
-.encabezado-formulario {
-    margin-top: 20px;
-    margin-bottom: 30px;
-}
-
-.encabezado-formulario h1 {
-    margin-bottom: 10px;
-    font-size: 36px;
-    color: #8b5e3c;
-}
-
-.encabezado-formulario p {
-    margin: 0;
-    color: #68584f;
-}
-
 .contenedor-formulario {
+    min-width: 0;
     background-color: white;
     border-radius: 16px;
     padding: 35px;
@@ -277,7 +261,7 @@ body {
 
 .fila-formulario {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
 }
 
@@ -330,7 +314,7 @@ body {
         width: 100%;
     }
 }
-/* Productos por vencer */
+
 .filtro-vencimientos {
     display: flex;
     align-items: center;
@@ -370,7 +354,8 @@ body {
     margin-bottom: 30px;
 }
 
-.alerta-vencimientos h2 {
+.alerta-vencimientos h2,
+.alerta-vencimientos h3 {
     margin: 0 0 8px 0;
     font-size: 20px;
     color: #a35f00;

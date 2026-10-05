@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de producción - Downzon</title>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/panadero.css">
+</head>
+<body>
+    <header class="barra-superior">
+        <img src="/img/logoDownzon.png" alt="Logo Downzon" class="logo-panel">
+        <div class="usuario-panel">
+            <span id="nombre-panadero">Panadero</span>
+            <a href="/login/cerrar" class="boton-salir">Cerrar sesión</a>
+        </div>
+    </header>
+    <main class="contenido-panel">
+        <section class="encabezado-panel">
+            <a href="/panadero" class="volver-panel">← Volver al panel</a>
+            <h1>Historial de producción</h1>
+            <p>Consulta las producciones registradas y su panadero responsable.</p>
+        </section>
+        <div id="alerta-vencimientos" class="alerta-vencimientos" style="display:none;"></div>
+        <section class="dashboard-grid">
+            <div class="card card-ancha">
+                <h3>Producciones registradas</h3>
+                <div class="contenedor-tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Consumo preferente</th>
+                            <th>Panadero responsable</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista_producciones">
+                        <tr><td colspan="5" class="empty-state">Cargando...</td></tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="/js/panadero.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de ventas</title>
+    <link rel="stylesheet" href="/css/reporteVentas.css">
+</head>
+
+<body>
+
+<header class="barra-superior">
+
+    <img src="/img/logoDownzon.png" class="logo-panel">
+
+    <div class="usuario-panel">
+        <span>Cajero</span>
+
+        <a href="/login/cerrar" class="boton-salir">
+            Cerrar sesión
+        </a>
+    </div>
+
+</header>
+
+<main class="contenido-panel">
+
+    <section class="encabezado-panel">
+
+        <a href="/cajero" class="volver-panel">
+            ← Volver al panel
+        </a>
+
+        <h1>Reporte de ventas</h1>
+
+        <p>
+            Consulta las ventas realizadas y los productos vendidos.
+        </p>
+
+    </section>
+
+    <section class="estadisticas">
+
+        <div class="tarjeta-dato">
+
+            <h3>Ventas realizadas</h3>
+
+            <span id="totalVentas">0</span>
+
+            <p>
+                Ventas registradas
+            </p>
+
+        </div>
+
+        <div class="tarjeta-dato">
+
+            <h3>Ingresos totales</h3>
+
+            <span id="ingresosTotales">$0.00</span>
+
+            <p>
+                Ingresos obtenidos
+            </p>
+
+        </div>
+
+        <div class="tarjeta-dato">
+
+            <h3>Productos vendidos</h3>
+
+            <span id="productosVendidos">0</span>
+
+            <p>
+                Unidades vendidas
+            </p>
+
+        </div>
+
+        <div class="tarjeta-dato">
+
+            <h3>Venta promedio</h3>
+
+            <span id="ventaPromedio">$0.00</span>
+
+            <p>
+                Promedio por venta
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <h2>
+            Historial de ventas
+        </h2>
+
+        <div class="tabla-scroll">
+
+            <table class="tabla-ventas">
+
+                <thead>
+
+                    <tr>
+                        <th>ID Venta</th>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Total</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="tablaVentas"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="/js/reporteVentas.js"></script>
+
+</body>
+
+</html>

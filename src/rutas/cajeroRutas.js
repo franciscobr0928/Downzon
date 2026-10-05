@@ -47,6 +47,21 @@ router.get(
     verificarRol('Cajero'),
     pedidoControlador.mostrarVisualizarPedidos
 );
+router.get(
+    '/reportes',
+    verificarRol('Cajero'),
+    cajeroControlador.mostrarReporteVentas
+);
+router.get(
+    '/reporte-ventas',
+    verificarRol('Cajero'),
+    cajeroControlador.mostrarReporteVentas
+);
+router.get(
+    '/reporte-ventas/datos',
+    verificarRol('Cajero'),
+    cajeroControlador.obtenerReporteVentas
+);
 router.get('/api/pedidos', verificarRol('Cajero'), pedidoControlador.listarPedidos);
 router.get('/api/pedidos/:id', verificarRol('Cajero'), pedidoControlador.obtenerDetallePedido);
 router.put('/api/pedidos/:id/estado', verificarRol('Cajero'), pedidoControlador.cambiarEstadoPedido);

@@ -1,0 +1,183 @@
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background-color:#f7f1e8;
+    color:#33251e;
+}
+
+.barra-superior{
+    height:80px;
+    background-color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 6%;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+.logo-panel{
+    width:110px;
+    height:auto;
+}
+
+.usuario-panel{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.usuario-panel span{
+    font-weight:bold;
+    color:#68452f;
+}
+
+.boton-salir{
+    background-color:#8b5e3c;
+    color:white;
+    padding:10px 20px;
+    border-radius:20px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.boton-salir:hover{
+    background-color:#6f472d;
+}
+
+.contenido-panel{
+    width:88%;
+    max-width:1200px;
+    margin:50px auto;
+}
+
+.encabezado-panel{
+    margin-bottom:40px;
+}
+
+.encabezado-panel h1{
+    margin-bottom:10px;
+    font-size:36px;
+    color:#8b5e3c;
+}
+
+.encabezado-panel p{
+    margin:0;
+    color:#68584f;
+    font-size:17px;
+}
+
+.volver-panel{
+    color:#8b5e3c;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.volver-panel:hover{
+    text-decoration:underline;
+}
+
+.estadisticas{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.tarjeta-dato{
+    background-color:white;
+    border-radius:16px;
+    padding:20px;
+    height:110px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
+}
+
+.tarjeta-dato h3{
+    margin:0;
+    font-size:16px;
+    color:#33251e;
+}
+
+.tarjeta-dato span{
+    font-size:32px;
+    font-weight:bold;
+    color:#33251e;
+    margin-top:5px;
+}
+
+.tarjeta-dato p{
+    margin:0;
+    color:#68584f;
+    font-size:14px;
+}
+
+.panel{
+    background:white;
+    border-radius:16px;
+    padding:30px;
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
+    margin-bottom:30px;
+}
+
+.panel h2{
+    margin-top:0;
+    color:#8b5e3c;
+    font-size:22px;
+}
+
+.tabla-scroll{
+    max-height:430px;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+.tabla-ventas{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+}
+
+.tabla-ventas th{
+    background:#8b5e3c;
+    color:white;
+    padding:16px;
+    text-align:left;
+    position:sticky;
+    top:0;
+    z-index:2;
+}
+
+.tabla-ventas td{
+    padding:15px 16px;
+    border-bottom:1px solid #eee4d8;
+}
+
+.tabla-ventas tr:hover{
+    background:#fff8ef;
+}
+
+@media(max-width:800px){
+
+    .estadisticas{
+        grid-template-columns:1fr;
+    }
+
+    .barra-superior{
+        padding:10px 4%;
+    }
+
+    .usuario-panel span{
+        display:none;
+    }
+
+    .tabla-scroll{
+        overflow-x:auto;
+    }
+
+}

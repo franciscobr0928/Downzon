@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         campoFecha.value = hoyTexto;
     }
 
-    // Nombre del panadero con sesión iniciada, historial y aviso de vencimientos
-    cargarPerfil();
+    // Historial y aviso de vencimientos
     cargarProducciones();
     cargarVencimientos();
 
@@ -102,17 +101,6 @@ async function cargarReceta(idProducto) {
     } catch (error) {
         console.error("Error al cargar la receta:", error);
         tbody.innerHTML = '<tr><td colspan="3" style="color: red; text-align: center; padding: 20px;">Ocurrió un error al cargar los ingredientes. Verifica tu consola y conexión.</td></tr>';
-    }
-}
-
-async function cargarPerfil() {
-    try {
-        const r = await fetch('/panadero/api/perfil');
-        if (!r.ok) return;
-        const datos = await r.json();
-        document.getElementById('nombre-panadero').textContent = `Panadero: ${datos.nombre}`;
-    } catch (e) {
-        console.error(e);
     }
 }
 

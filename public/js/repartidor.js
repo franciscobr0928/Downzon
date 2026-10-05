@@ -145,9 +145,5 @@ porId('filtro-activas').addEventListener('click', () => { verEntregadas = false;
 porId('filtro-entregadas').addEventListener('click', () => { verEntregadas = true; pintar(); });
 porId('actualizar').addEventListener('click', cargarEntregas);
 
-fetch('/repartidor/api/perfil').then(leerRespuesta)
-    .then(perfil => { porId('nombre-repartidor').textContent = perfil.nombre; })
-    .catch(() => {});
-
 setInterval(() => { if (!document.hidden && !ocupado) cargarEntregas(); }, 30000);
 cargarEntregas();

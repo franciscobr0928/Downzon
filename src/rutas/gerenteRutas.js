@@ -1,6 +1,8 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 const gerenteControlador = require('../controladores/gerenteControlador');
+const cajeroControlador = require('../controladores/cajeroControlador');
 const { verificarRol } = require('../middlewares/autenticacion');
 const produccionControlador = require('../controladores/produccionControlador');
 
@@ -83,5 +85,11 @@ router.get('/produccion/historial', verificarRol('Gerente'), produccionControlad
 // Productos próximos a vencer
 router.get('/vencimientos', verificarRol('Gerente'), produccionControlador.mostrarVencimientos);
 router.get('/vencimientos/api', verificarRol('Gerente'), produccionControlador.obtenerVencimientos);
+
+// Reporte de ventas con rango de fechas (misma consulta que usa el cajero)
+router.get('/reporte-ventas', verificarRol('Gerente'), (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'gerenteReporteVentas.html'));
+});
+router.get('/reporte-ventas/datos', verificarRol('Gerente'), cajeroControlador.obtenerReporteVentas);
 
 module.exports = router;

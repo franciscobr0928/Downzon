@@ -91,3 +91,55 @@
     }
 
 }
+
+/* Filtro por rango de fechas */
+.filtro-contenido{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    gap:16px;
+}
+
+.filtro-contenido label{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    font-weight:bold;
+    color:#68452f;
+}
+
+.filtro-contenido input{
+    padding:10px 12px;
+    border:1px solid #d9c8b8;
+    border-radius:10px;
+    font:inherit;
+    color:#33251e;
+}
+
+.boton-filtro{
+    background-color:#8b5e3c;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.boton-filtro:hover{
+    background-color:#6f472d;
+}
+
+.boton-secundario{
+    background-color:#c9b29d;
+    color:#33251e;
+}
+
+.boton-secundario:hover{
+    background-color:#b89f88;
+}
+
+.texto-periodo{
+    margin:14px 0 0;
+    color:#68584f;
+}

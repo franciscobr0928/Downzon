@@ -82,11 +82,29 @@ const obtenerVencimientos = (req, res) => {
     });
 };
 
+const mostrarPedidosPendientes = (req, res) => {
+    res.sendFile(
+        path.join(__dirname, '..', '..', 'vistas', 'panaderoPedidosPendientes.html')
+    );
+};
+
+const obtenerPedidosPendientes = (req, res) => {
+    panaderoDAO.obtenerPedidosPendientes((error, resultados) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ mensaje: 'Error al consultar los pedidos pendientes' });
+        }
+        res.json(resultados);
+    });
+};
+
 module.exports = {
     mostrarPanelPanadero,
     obtenerReceta,
     registrarProduccion,
     obtenerPerfil,
     obtenerHistorial,
-    obtenerVencimientos
+    obtenerVencimientos,
+    mostrarPedidosPendientes,
+    obtenerPedidosPendientes
 };

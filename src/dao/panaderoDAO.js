@@ -138,9 +138,30 @@ const obtenerProximosAVencer = (dias, callback) => {
     conexion.query(query, [dias], (error, resultados) => callback(error, resultados));
 };
 
+// Pedidos que aún hay que producir: productos y cantidades totales
+// (pedidos en estado 'Pendiente' o 'En preparación')
+const obtenerPedidosPendientes = (callback) => {
+    const query = `
+        SELECT
+            dp.id_producto,
+            p.nombre AS producto,
+            SUM(dp.cantidad) AS cantidad_pendiente,
+            COUNT(DISTINCT dp.id_pedido) AS total_pedidos,
+            DATE_FORMAT(MIN(pe.fecha_entrega), '%Y-%m-%d %H:%i') AS entrega_mas_proxima
+        FROM detalle_pedido dp
+        JOIN pedidos pe ON pe.id_pedido = dp.id_pedido
+        JOIN productos p ON p.id_producto = dp.id_producto
+        WHERE pe.estado IN ('Pendiente', 'En preparación')
+        GROUP BY dp.id_producto, p.nombre
+        ORDER BY MIN(pe.fecha_entrega) ASC, p.nombre ASC
+    `;
+    conexion.query(query, (error, resultados) => callback(error, resultados));
+};
+
 module.exports = {
     obtenerRecetaPorProducto,
     guardarProduccion,
     obtenerHistorialProduccion,
-    obtenerProximosAVencer
+    obtenerProximosAVencer,
+    obtenerPedidosPendientes
 };

@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Historial y aviso de vencimientos
     cargarProducciones();
     cargarVencimientos();
+    cargarPedidosPendientes();
 
     // 2. NUEVA Lógica del formulario interceptado con Fetch
     const formProduccion = document.getElementById('form-produccion');
@@ -161,5 +162,33 @@ async function cargarVencimientos() {
         cont.style.display = 'block';
     } catch (e) {
         console.error(e);
+    }
+}
+
+async function cargarPedidosPendientes() {
+    const tbody = document.getElementById('lista_pedidos_pendientes');
+    if (!tbody) return;
+    try {
+        const r = await fetch('/panadero/api/pedidos-pendientes');
+        if (!r.ok) throw new Error('Error del servidor');
+        const registros = await r.json();
+        tbody.innerHTML = '';
+        if (registros.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No hay pedidos pendientes de producir.</td></tr>';
+            return;
+        }
+        registros.forEach(reg => {
+            const tr = document.createElement('tr');
+            [reg.producto, reg.cantidad_pendiente, reg.total_pedidos, reg.entrega_mas_proxima || '-'
+            ].forEach(valor => {
+                const td = document.createElement('td');
+                td.textContent = valor;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        console.error(e);
+        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No se pudieron cargar los pedidos pendientes.</td></tr>';
     }
 }

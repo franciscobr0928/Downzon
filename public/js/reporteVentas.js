@@ -1,12 +1,45 @@
 let datosVentas = []; // Variable global para guardar los datos y usarlos en el TXT
 
+let periodoTexto = 'Todas las ventas'; // Texto del periodo para el TXT
+
 window.onload = function(){
+    document.getElementById('btnFiltrar').addEventListener('click', cargarReporteVentas);
+    document.getElementById('btnLimpiar').addEventListener('click', function(){
+        document.getElementById('fechaDesde').value = '';
+        document.getElementById('fechaHasta').value = '';
+        cargarReporteVentas();
+    });
     cargarReporteVentas();
 };
 
 function cargarReporteVentas(){
-    fetch('/cajero/reporte-ventas/datos')
-    .then(res=>res.json())
+    const desde = document.getElementById('fechaDesde').value;
+    const hasta = document.getElementById('fechaHasta').value;
+
+    if (desde && hasta && desde > hasta) {
+        alert('La fecha inicial no puede ser posterior a la final');
+        return;
+    }
+
+    // La ruta de datos depende de la pantalla (cajero o gerente)
+    const api = document.body.dataset.api || '/cajero/reporte-ventas/datos';
+    const params = new URLSearchParams();
+    if (desde) params.append('desde', desde);
+    if (hasta) params.append('hasta', hasta);
+    const url = params.toString() ? api + '?' + params.toString() : api;
+
+    if (desde && hasta) periodoTexto = 'Del ' + desde + ' al ' + hasta;
+    else if (desde) periodoTexto = 'Desde ' + desde;
+    else if (hasta) periodoTexto = 'Hasta ' + hasta;
+    else periodoTexto = 'Todas las ventas';
+
+    document.getElementById('textoPeriodo').textContent = 'Mostrando: ' + periodoTexto;
+
+    fetch(url)
+    .then(res=>{
+        if(!res.ok) throw new Error('Respuesta inválida del servidor');
+        return res.json();
+    })
     .then(ventas=>{
         datosVentas = ventas; // Guardamos los datos para el reporte TXT
         
@@ -56,6 +89,7 @@ function generarTXT() {
     }
 
     let contenidoTxt = "=== REPORTE DE VENTAS ===\n";
+    contenidoTxt += "Periodo: " + periodoTexto + "\n";
     contenidoTxt += "-------------------------------------------------------------------------\n";
     
     datosVentas.forEach(venta => {
@@ -69,7 +103,7 @@ function generarTXT() {
     contenidoTxt += `\nRESUMEN:\n`;
     contenidoTxt += `Total de Ventas (Tickets): ${document.getElementById('totalVentas').textContent}\n`;
     contenidoTxt += `Productos Vendidos: ${document.getElementById('productosVendidos').textContent}\n`;
-    contenidoTxt += `Ingresos Totales: ${document.getElementById('ingresosTotales').textContent}\n`;
+    contenidoTxt += `Total vendido: ${document.getElementById('ingresosTotales').textContent}\n`;
 
     // Crear el archivo virtual y forzar la descarga
     const blob = new Blob([contenidoTxt], { type: 'text/plain;charset=utf-8' });

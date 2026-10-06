@@ -22,6 +22,10 @@ router.get('/historial', verificarRol('Panadero'), (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'vistas', 'panaderoHistorial.html'));
 });
 
+// Pedidos pendientes de producir (solo consulta)
+router.get('/pedidos-pendientes', verificarRol('Panadero'), panaderoControlador.mostrarPedidosPendientes);
+router.get('/api/pedidos-pendientes', verificarRol('Panadero'), panaderoControlador.obtenerPedidosPendientes);
+
 // Nueva ruta: API para obtener los ingredientes de una receta por ID
 router.get(
     '/api/recetas/:id',

@@ -4,6 +4,7 @@ const {
     errorHttp,
     pedidoAsignable
 } = require('../entidades/pedidos');
+const ventaDAO = require('./ventaDAO'); // <-- Importamos ventaDAO
 
 const consultar = (sql, parametros = []) =>
     conexionBase.promise().query(sql, parametros).then(([filas]) => filas);
@@ -12,8 +13,6 @@ const cerrar = conexion => conexion.end().catch(error => {
     console.error('Error al cerrar conexión:', error.message);
 });
 
-// Repartidores activos con su disponibilidad. Un repartidor está ocupado
-// mientras tenga alguna entrega Pendiente o En camino.
 const listarRepartidores = async () => {
     const filas = await consultar(
         `SELECT u.id_usuario, u.nombre, u.username,
@@ -34,9 +33,6 @@ const listarRepartidores = async () => {
     }));
 };
 
-// Asigna (o reasigna, mientras la entrega siga Pendiente) un repartidor.
-// El repartidor se bloquea con FOR UPDATE: dos asignaciones simultáneas al
-// mismo empleado se ejecutan una tras otra y la segunda ve que ya está ocupado.
 const asignarRepartidor = async (idPedido, idRepartidor) => {
     const conexion = await conexionBase.crearConexion();
     try {
@@ -105,7 +101,6 @@ const asignarRepartidor = async (idPedido, idRepartidor) => {
     }
 };
 
-// Entregas de UN repartidor (el filtro por id_repartidor es obligatorio).
 const obtenerEntregasDeRepartidor = async idRepartidor => {
     const entregas = await consultar(
         `SELECT e.id_entrega, e.id_pedido, e.estado,
@@ -134,15 +129,11 @@ const obtenerEntregasDeRepartidor = async idRepartidor => {
     }));
 };
 
-// Avance de estado por el repartidor dueño de la entrega:
-//   Pendiente -> En camino (el pedido debe estar Terminado)
-//   En camino -> Entregada (el pedido pasa a Entregado)
 const actualizarEstadoEntrega = async (idEntrega, idRepartidor, nuevoEstado) => {
     const conexion = await conexionBase.crearConexion();
     try {
         await conexion.beginTransaction();
 
-        // Se bloquea primero el pedido (mismo orden que el resto de operaciones).
         const [propias] = await conexion.query(
             'SELECT id_pedido FROM entregas WHERE id_entrega = ? AND id_repartidor = ?',
             [idEntrega, idRepartidor]
@@ -184,6 +175,43 @@ const actualizarEstadoEntrega = async (idEntrega, idRepartidor, nuevoEstado) => 
             await conexion.query(
                 "UPDATE pedidos SET estado = 'Entregado' WHERE id_pedido = ?", [idPedido]
             );
+
+            // ==========================================
+            // NUEVO: Registrar venta al entregar
+            // ==========================================
+            try {
+                const [pedidoRows] = await conexion.query('SELECT total FROM pedidos WHERE id_pedido = ?', [idPedido]);
+                const totalPedido = pedidoRows[0].total;
+
+                const [detalleRows] = await conexion.query('SELECT id_producto, cantidad, precio_unitario, subtotal FROM detalle_pedido WHERE id_pedido = ?', [idPedido]);
+
+                const idVentaNueva = await new Promise((resolve, reject) => {
+                    ventaDAO.crearVenta(totalPedido, (err, id) => {
+                        if (err) reject(err);
+                        else resolve(id);
+                    });
+                });
+
+                for (const item of detalleRows) {
+                    const detalleVenta = {
+                        id_venta: idVentaNueva,
+                        id_producto: item.id_producto,
+                        cantidad: item.cantidad,
+                        subtotal: item.subtotal
+                    };
+                    
+                    await new Promise((resolve, reject) => {
+                        ventaDAO.guardarDetalle(detalleVenta, (err) => {
+                            if (err) reject(err);
+                            else resolve();
+                        });
+                    });
+                }
+            } catch (errorVenta) {
+                console.error("Error al registrar la venta automática desde Repartidor:", errorVenta);
+            }
+            // ==========================================
+
         } else {
             throw errorHttp(400, 'Estado de entrega no válido.');
         }

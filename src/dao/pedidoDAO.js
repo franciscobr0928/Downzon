@@ -1,7 +1,7 @@
 const conexionBase = require('../base_de_datos/conexion');
 const { errorHttp, estadosPermitidosCajero } = require('../entidades/pedidos');
+const ventaDAO = require('./ventaDAO'); // <-- Importamos ventaDAO
 
-// Consultas de solo lectura sobre la conexión compartida.
 const consultar = (sql, parametros = []) =>
     conexionBase.promise().query(sql, parametros).then(([filas]) => filas);
 
@@ -29,7 +29,6 @@ const guardarPedido = async (pedido) => {
                 error.status = 400;
                 throw error;
             }
-            // El precio se toma de MySQL, nunca del navegador.
             const precio = String(producto.precio);
             if (!/^\d+(\.\d{1,2})?$/.test(precio)) {
                 const error = new Error('Un producto tiene un precio inválido. Solicita su revisión.');
@@ -70,16 +69,15 @@ const guardarPedido = async (pedido) => {
         await conexion.rollback();
         throw error;
     } finally {
-    await conexion.end().catch(errorCierre => {
-        console.error(
-            'Error al cerrar conexión del pedido:',
-            errorCierre.message
-        );
-    });
-}
+        await conexion.end().catch(errorCierre => {
+            console.error(
+                'Error al cerrar conexión del pedido:',
+                errorCierre.message
+            );
+        });
+    }
 };
 
-// Datos de un pedido junto con su entrega (si ya tiene repartidor).
 const SELECT_PEDIDO = `
     SELECT p.id_pedido, p.nombre_cliente, p.telefono, p.tipo_entrega,
            p.direccion, p.referencias, p.notas_preparacion, p.total, p.estado,
@@ -105,7 +103,6 @@ const obtenerPedidos = ({ estado, busqueda } = {}) => {
         parametros.push(patron, patron, /^\d{1,10}$/.test(busqueda) ? Number(busqueda) : 0);
     }
     const donde = condiciones.length ? `WHERE ${condiciones.join(' AND ')}` : '';
-    // Primero los pedidos activos, los más próximos a entregar arriba.
     return consultar(
         `${SELECT_PEDIDO} ${donde}
          ORDER BY (p.estado IN ('Entregado', 'Cancelado')), p.fecha_entrega ASC
@@ -128,8 +125,6 @@ const obtenerDetallePedido = async idPedido => {
     return { pedido: pedidos[0], productos };
 };
 
-// Cambia el estado validando la transición con el pedido bloqueado.
-// Al cancelar libera al repartidor si la entrega aún no salió.
 const cambiarEstadoPedido = async (idPedido, nuevoEstado) => {
     const conexion = await conexionBase.crearConexion();
     try {
@@ -156,6 +151,45 @@ const cambiarEstadoPedido = async (idPedido, nuevoEstado) => {
             }
         }
         await conexion.query('UPDATE pedidos SET estado = ? WHERE id_pedido = ?', [nuevoEstado, idPedido]);
+        
+        // ==========================================
+        // NUEVO: Registrar venta al entregar por Cajero
+        // ==========================================
+        if (nuevoEstado === 'Entregado') {
+             try {
+                const [pedidoRows] = await conexion.query('SELECT total FROM pedidos WHERE id_pedido = ?', [idPedido]);
+                const totalPedido = pedidoRows[0].total;
+
+                const [detalleRows] = await conexion.query('SELECT id_producto, cantidad, precio_unitario, subtotal FROM detalle_pedido WHERE id_pedido = ?', [idPedido]);
+
+                const idVentaNueva = await new Promise((resolve, reject) => {
+                    ventaDAO.crearVenta(totalPedido, (err, id) => {
+                        if (err) reject(err);
+                        else resolve(id);
+                    });
+                });
+
+                for (const item of detalleRows) {
+                    const detalleVenta = {
+                        id_venta: idVentaNueva,
+                        id_producto: item.id_producto,
+                        cantidad: item.cantidad,
+                        subtotal: item.subtotal
+                    };
+                    
+                    await new Promise((resolve, reject) => {
+                        ventaDAO.guardarDetalle(detalleVenta, (err) => {
+                            if (err) reject(err);
+                            else resolve();
+                        });
+                    });
+                }
+            } catch (errorVenta) {
+                console.error("Error al registrar la venta automática desde Cajero:", errorVenta);
+            }
+        }
+        // ==========================================
+
         await conexion.commit();
         return { id_pedido: idPedido, estado: nuevoEstado };
     } catch (error) {

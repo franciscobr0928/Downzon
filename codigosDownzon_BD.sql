@@ -1,3 +1,12 @@
+#Creacion base de datos Downzon
+CREATE DATABASE downzon;
+USE downzon;
+CREATE USER 'userDownzon'@'localhost' IDENTIFIED BY 'downzon123';
+GRANT ALL PRIVILEGES ON downzon.* TO 'userDownzon'@'localhost';
+FLUSH PRIVILEGES;
+
+#Script de la base de datos
+#Semana 1------------------------------
 USE downzon;
 
 CREATE TABLE usuarios (
@@ -55,7 +64,7 @@ CREATE TABLE detalle_venta (
     FOREIGN KEY(id_producto)
     REFERENCES productos(id_producto)
 );
-
+#Semana 2-----------------------------
 CREATE TABLE inventario (
     id_inventario INT AUTO_INCREMENT PRIMARY KEY,
     ingrediente VARCHAR(100) NOT NULL,
@@ -63,7 +72,6 @@ CREATE TABLE inventario (
     unidad VARCHAR(20) NOT NULL,
     estado VARCHAR(30) NOT NULL
 );
-
 INSERT INTO inventario 
 (ingrediente, stock_actual, unidad, estado)
 VALUES
@@ -81,6 +89,7 @@ VALUES
 
 SELECT * FROM inventario;
 
+
 CREATE TABLE entradas_inventario (
     id_entrada INT AUTO_INCREMENT PRIMARY KEY,
     id_inventario INT NOT NULL,
@@ -91,9 +100,7 @@ CREATE TABLE entradas_inventario (
     FOREIGN KEY(id_inventario)
     REFERENCES inventario(id_inventario)
 );
-
 DESCRIBE entradas_inventario;
-
 select*from entradas_inventario;
 
 CREATE TABLE salidas_inventario (
@@ -106,8 +113,9 @@ CREATE TABLE salidas_inventario (
     FOREIGN KEY(id_inventario)
     REFERENCES inventario(id_inventario)
 );
-
 select*from salidas_inventario;
+
+
 
 CREATE TABLE recetas (
     id_producto INT,
@@ -179,13 +187,14 @@ FROM recetas r
 JOIN productos p ON r.id_producto = p.id_producto
 JOIN inventario i ON r.id_inventario = i.id_inventario
 ORDER BY p.id_producto;
-
+#Semana 3--------------------------------
 ALTER TABLE produccion_diaria
     ADD COLUMN fecha_consumo_preferente DATE NULL;
 
 ALTER TABLE produccion_diaria
     ADD COLUMN fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
+#Semana 4--------------------------------
 CREATE TABLE IF NOT EXISTS pedidos (
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -221,12 +230,15 @@ CREATE TABLE IF NOT EXISTS detalle_pedido (
 
 SELECT  * FROM detalle_pedido;
 SELECT  * FROM pedidos;
-
+-- 1) Nuevo rol de empleado: 'Repartidor' (se guarda en usuarios.rol).
+--    Usuario de ejemplo; el cajero puede dar de alta más desde el sistema.
 INSERT IGNORE INTO usuarios (nombre, username, password, rol) VALUES
 ('Repartidor Downzon', 'repartidor', '1234', 'Repartidor');
 
 select * from usuarios;
 
+-- 2) Una entrega = un pedido a domicilio asignado a un repartidor.
+--    UNIQUE(id_pedido) garantiza que un pedido nunca tenga dos repartidores.
 CREATE TABLE IF NOT EXISTS entregas (
     id_entrega INT AUTO_INCREMENT PRIMARY KEY,
     id_pedido INT NOT NULL,
@@ -243,4 +255,9 @@ CREATE TABLE IF NOT EXISTS entregas (
     INDEX idx_entregas_repartidor_estado (id_repartidor, estado)
 ) ENGINE=InnoDB;
 
+-- Estados válidos de pedidos.estado (los valida la aplicación):
+--   'Pendiente', 'En preparación', 'Terminado', 'Entregado', 'Cancelado'
+
 select * from entregas;
+
+
